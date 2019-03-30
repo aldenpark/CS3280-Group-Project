@@ -5,10 +5,9 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Navigation;
 
 namespace GroupProject
-{ 
+{
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>

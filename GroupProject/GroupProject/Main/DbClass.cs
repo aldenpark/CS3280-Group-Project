@@ -28,38 +28,38 @@ namespace GroupProject.Main
             return Conn;
         }
 
-        public static List<ObjectName> ExmapleConnection()
-        {
-            OleDbConnection Conn = GetConnection();
+        //public static List<ObjectName> ExmapleConnection()
+        //{
+        //    OleDbConnection Conn = GetConnection();
 
-            List<ObjectName> ObjectVar = new List<ObjectName>();
-            try
-            {
-                OleDbCommand cmd = Conn.CreateCommand();
-                Conn.Open();
-                cmd.CommandText = "SELECT * FROM Flight";
-                var data = cmd.ExecuteReader();
+        //    List<ObjectName> ObjectVar = new List<ObjectName>();
+        //    try
+        //    {
+        //        OleDbCommand cmd = Conn.CreateCommand();
+        //        Conn.Open();
+        //        cmd.CommandText = "SELECT * FROM Flight";
+        //        var data = cmd.ExecuteReader();
 
-                while (data.Read())
-                {
-                    ObjectVar.Add(new ObjectName()
-                    {
-                        id = Int32.Parse(data["id"].ToString()),
-                        field = data["anotherfield"].ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
-            finally
-            {
-                Conn.Close();
-            }
+        //        while (data.Read())
+        //        {
+        //            ObjectVar.Add(new ObjectName()
+        //            {
+        //                id = Int32.Parse(data["id"].ToString()),
+        //                field = data["anotherfield"].ToString()
+        //            });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        Conn.Close();
+        //    }
 
-            return ObjectVar;
-        }
+        //    return ObjectVar;
+        //}
 
     }
 }
