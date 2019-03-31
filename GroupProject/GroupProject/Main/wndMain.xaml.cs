@@ -25,6 +25,8 @@ namespace GroupProject
             InitializeComponent();
         }
 
+        UserControl control;
+
         /// <summary>
         /// Handle errors
         /// </summary>
@@ -43,9 +45,92 @@ namespace GroupProject
             }
         }
 
-        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Exit Program
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MI_Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        /// <summary>
+        /// Load Definition User Control
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MI_Definition_Click(object sender, RoutedEventArgs e)
+        {
+            MI_NewInvoice.IsEnabled = false;
+            MI_Search.IsEnabled = false;
+            MI_Save.IsEnabled = true;
+            MI_Close.IsEnabled = true;
+            MI_Delete.IsEnabled = true;
+
+            if (control == null || control.Name != "UC_Definition")
+            {
+                control = new Main.UC_Definition();
+                control.Name = "UC_Definition";
+                WP_Invoice.Children.Add(control);
+            }
+        }
+
+        /// <summary>
+        /// Load New Invoice User Control
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MI_NewInvoice_Click(object sender, RoutedEventArgs e)
+        {
+            MI_Definitions.IsEnabled = false;
+            MI_Search.IsEnabled = false;
+            MI_Save.IsEnabled = true;
+            MI_Close.IsEnabled = true;
+            MI_Delete.IsEnabled = true;
+
+            //WP_Invoice.Children.Add(new Main.UC_Definition());
+        }
+
+        /// <summary>
+        /// Close Loaded User Control
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MI_Close_Click(object sender, RoutedEventArgs e)
+        {
+            MI_NewInvoice.IsEnabled = true;
+            MI_Search.IsEnabled = true;
+            MI_Definitions.IsEnabled = true;
+            MI_Save.IsEnabled = false;
+            MI_Close.IsEnabled = false;
+            MI_Delete.IsEnabled = false;
+
+            if (control != null)
+            {
+                control = null;
+                WP_Invoice.Children.Clear();
+            }
+        }
+
+        /// <summary>
+        ///  Call User Control Save method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MI_Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Call Delete Method in User Control
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MI_Delete_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

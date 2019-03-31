@@ -10,6 +10,10 @@ namespace GroupProject.Main
 {
     class clsMainSQL : DbClass
     {
+        /// <summary>
+        /// Load List of Definitions for Invoices
+        /// </summary>
+        /// <returns></returns>
         public static List<Definitions> GetDefinitions()
         {
             OleDbConnection Conn = DbClass.GetConnection();
@@ -42,5 +46,27 @@ namespace GroupProject.Main
 
             return ObjectVar;
         }
+
+        /// <summary>
+        /// Save New Definition
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static List<Definitions> SaveDefinitions(String name)
+        {
+            return clsMainSQL.GetDefinitions();
+        }
+
+        /// <summary>
+        /// Delete Definition if it is not longer used
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static bool DeleteDefinition(int id)
+        {
+            return false;
+        }
+
     }
+
 }

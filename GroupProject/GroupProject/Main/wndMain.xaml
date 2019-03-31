@@ -6,24 +6,25 @@
         xmlns:local="clr-namespace:GroupProject"
         mc:Ignorable="d"
         Title="Invoice System" Height="450" Width="800">
-    <Grid>
+    <Grid Margin="0,0,0,390
+          ">
         <DockPanel>
-            <Menu DockPanel.Dock="Top">
+            <Menu DockPanel.Dock="Top" Height="20">
                 <MenuItem Header="_File">
-                    <MenuItem Header="_New" />
-                    <MenuItem Header="_Open/Search" />
-                    <MenuItem Header="_Edit" />
-                    <MenuItem Header="_Save" />
-                    <MenuItem Header="_Close" />
-                    <MenuItem Header="_Delete" />
-                    <Separator />
-                    <MenuItem Header="_Exit" Click="MenuItem_Exit_Click" />
+                    <MenuItem x:Name="MI_Save" Header="_Save" IsEnabled="False" Click="MI_Save_Click" />
+                    <MenuItem x:Name="MI_Close" Header="_Close" IsEnabled="False" Click="MI_Close_Click" />
+                    <MenuItem x:Name="MI_Delete" Header="_Delete" IsEnabled="False" Click="MI_Delete_Click" />
+                    <MenuItem Header="_Exit" Click="MI_Exit_Click" />
                 </MenuItem>
-                <MenuItem Header="_Definitions">
-                    <MenuItem Header="_Edit" />
+                <MenuItem Header="_Actions">
+                    <MenuItem x:Name="MI_NewInvoice" Header="_New Invoice" Click="MI_NewInvoice_Click" />
+                    <MenuItem x:Name="MI_Search" Header="_Search For Invoice" />
+                    <Separator />
+                    <MenuItem x:Name="MI_Definitions" Header="_Edit Definitions" Click="MI_Definition_Click" />
                 </MenuItem>
             </Menu>
         </DockPanel>
+        <WrapPanel x:Name="WP_Invoice" HorizontalAlignment="Left" Height="359" Margin="16,44,0,-374" VerticalAlignment="Top" Width="760"/>
     </Grid>
 
 </Window>

@@ -71,6 +71,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Main\UcDefinition.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Main\wndMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -88,6 +92,9 @@
     <Compile Include="Main\clsMainSQL.cs" />
     <Compile Include="Main\DbClass.cs" />
     <Compile Include="Main\Definitions.cs" />
+    <Compile Include="Main\UcDefinition.xaml.cs">
+      <DependentUpon>UcDefinition.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Main\wndMain.xaml.cs">
       <DependentUpon>wndMain.xaml</DependentUpon>
       <SubType>Code</SubType>
