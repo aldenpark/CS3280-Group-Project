@@ -23,18 +23,44 @@ namespace GroupProject.Main
         public UC_Definition()
         {
             InitializeComponent();
+
+            // Load UserControl Definition
+            clsMainLogic.LoadDefinitions();
         }
 
+        /// <summary>
+        /// Load UserControl Edit Name Definition
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LB_DefinitionSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
-        private void BTN_Save(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Save Data in User Control
+        /// </summary>
+        public void Save()
         {
-
+            clsMainLogic.SaveDefinitions();
         }
 
+        /// <summary>
+        /// Save Data in User Control
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BTN_Save(object sender, RoutedEventArgs e)
+        {
+            clsMainLogic.SaveDefinitions();
+        }
+
+        /// <summary>
+        /// Cancel Changes made in User Control
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BTN_Cancel(object sender, RoutedEventArgs e)
         {
 
