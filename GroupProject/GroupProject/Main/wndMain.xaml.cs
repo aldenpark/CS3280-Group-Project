@@ -71,7 +71,6 @@ namespace GroupProject
             if (control == null || control.Name != "UC_Definition")
             {
                 control = new Main.UC_Definition();
-                control.Name = "UC_Definition";
                 WP_Invoice.Children.Add(control);
             }
         }
