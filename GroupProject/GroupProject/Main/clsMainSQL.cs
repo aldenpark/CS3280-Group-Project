@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.OleDb;
 using System.Linq;
 using System.Reflection;
@@ -8,40 +9,36 @@ using System.Threading.Tasks;
 
 namespace GroupProject.Main
 {
-    class clsMainSQL : DbClass
+    class clsMainSQL
     {
+
         /// <summary>
         /// Load List of Definitions for Invoices
         /// </summary>
         /// <returns></returns>
         public static List<Definitions> GetDefinitions()
         {
-            OleDbConnection Conn = DbClass.GetConnection();
 
+            DataSet ds = new DataSet();
+            int iRet = 0;
             List<Definitions> ObjectVar = new List<Definitions>();
+            clsDataAccess clsData = new clsDataAccess();
             try
             {
-                OleDbCommand cmd = Conn.CreateCommand();
-                Conn.Open();
-                cmd.CommandText = "SELECT * FROM Definitions";
-                var data = cmd.ExecuteReader();
+                ds = clsData.ExecuteSQLStatement("SELECT id, defname FROM Definitions", ref iRet);
 
-                while (data.Read())
+                for (int i = 0; i < iRet; i++)
                 {
                     ObjectVar.Add(new Definitions()
                     {
-                        Id = Int32.Parse(data["id"].ToString()),
-                        Name = data["defname"].ToString()
+                        Id = Int32.Parse(ds.Tables[0].Rows[i][0].ToString()),
+                        Name = ds.Tables[0].Rows[i][i].ToString().ToString()
                     });
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            }
-            finally
-            {
-                Conn.Close();
             }
 
             return ObjectVar;

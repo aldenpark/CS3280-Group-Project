@@ -91,7 +91,6 @@
     <Compile Include="clsDataAccess.cs" />
     <Compile Include="Main\clsMainLogic.cs" />
     <Compile Include="Main\clsMainSQL.cs" />
-    <Compile Include="Main\DbClass.cs" />
     <Compile Include="Main\Definitions.cs" />
     <Compile Include="Main\UcDefinition.xaml.cs">
       <DependentUpon>UcDefinition.xaml</DependentUpon>

@@ -25,7 +25,6 @@ namespace GroupProject.Main
             InitializeComponent();
 
             // Load UserControl Definition
-            clsMainLogic.LoadDefinitions();
         }
 
         /// <summary>
