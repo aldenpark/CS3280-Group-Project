@@ -5,26 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GroupProject"
         mc:Ignorable="d"
-        Title="Invoice System" Height="450" Width="800">
-    <Grid Margin="0,0,0,390
-          ">
-        <DockPanel>
-            <Menu DockPanel.Dock="Top" Height="20">
+        Title="Invoice System" Height="485" Width="600">
+    <Grid Margin="0,0,0,390">
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        </Grid>
+        <DockPanel Grid.Row="0" Grid.Column="0">
+            <Menu DockPanel.Dock="Top" Height="60">
                 <MenuItem Header="_File">
-                    <MenuItem x:Name="MI_Save" Header="_Save" IsEnabled="False" Click="MI_Save_Click" />
                     <MenuItem x:Name="MI_Close" Header="_Close" IsEnabled="False" Click="MI_Close_Click" />
-                    <MenuItem x:Name="MI_Delete" Header="_Delete" IsEnabled="False" Click="MI_Delete_Click" />
                     <MenuItem Header="_Exit" Click="MI_Exit_Click" />
                 </MenuItem>
                 <MenuItem Header="_Actions">
-                    <MenuItem x:Name="MI_NewInvoice" Header="_New Invoice" Click="MI_NewInvoice_Click" />
-                    <MenuItem x:Name="MI_Search" Header="_Search For Invoice" />
+                    <MenuItem x:Name="MI_Search" Header="_Search For Invoice" Click="Search_Window" />
                     <Separator />
-                    <MenuItem x:Name="MI_Definitions" Header="_Edit Definitions" Click="MI_Definition_Click" />
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <WrapPanel x:Name="WP_Invoice" HorizontalAlignment="Left" Height="359" Margin="16,44,0,-374" VerticalAlignment="Top" Width="760"/>
+
+        <Button x:Name="Btn_Create" Grid.Row="1" Grid.Column="0" Content="Create" HorizontalAlignment="Left" Height="21" Margin="330,20,0,0" VerticalAlignment="Top" Width="75" Click="Btn_Create_Click"/>
+        <Button x:Name="Btn_Edit" Grid.Row="1" Grid.Column="0" Content="Edit" HorizontalAlignment="Left" Height="21" Margin="410,20,0,0" VerticalAlignment="Top" Width="75" Click="Btn_Edit_Click"/>
+        <Button x:Name="Btn_Delete" Grid.Row="1" Grid.Column="0" Content="Delete" HorizontalAlignment="Left" Height="21" Margin="490,20,0,0" VerticalAlignment="Top" Width="75" Click="Btn_Delete_Click"/>
+        
+        <Canvas x:Name="Main" Grid.Row="2" Grid.Column="0" Visibility="Visible" Margin="100,40,0,0">
+            <Image HorizontalAlignment="Left" Height="64" Margin="152,119,0,-119" VerticalAlignment="Top" Width="100" Source="Invoicing.png"/>
+        </Canvas>
+        
+        <Canvas x:Name="Search" Grid.Row="2" Grid.Column="0" Visibility="Hidden" Margin="100,40,0,0">
+            <Button x:Name="btnSelect" Content="Select" HorizontalAlignment="Left" Margin="10,355,0,0" VerticalAlignment="Top" Width="120" Click="BtnSelect_Click"/>
+            <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="262,355,0,0" VerticalAlignment="Top" Width="123" Click="BtnCancel_Click"/>
+            <Button x:Name="btnClear" Content="Clear Selection" HorizontalAlignment="Left" Margin="134,355,0,0" VerticalAlignment="Top" Width="123" Click="BtnClear_Click"/>
+            <DataGrid x:Name="grdInvoiceList" HorizontalAlignment="Left" Height="259" Margin="10,91,0,0" VerticalAlignment="Top" Width="375"/>
+            <ComboBox x:Name="cmbInvoiceNumber" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="CmbInvoiceNumber_SelectionChanged"/>
+            <Label x:Name="label" Content="Search Invoices" HorizontalAlignment="Left" Margin="134,7,0,0" VerticalAlignment="Top" FontSize="16"/>
+            <ComboBox x:Name="cmbInvoiceDate" HorizontalAlignment="Left" Margin="137,64,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="CmbInvoiceDate_SelectionChanged"/>
+            <ComboBox x:Name="cmbInvoiceCharges" HorizontalAlignment="Left" Margin="265,64,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="CmbInvoiceCharges_SelectionChanged"/>
+            <Label x:Name="label1" Content="Invoice Number" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="label2" Content="Invoice Date" HorizontalAlignment="Left" Margin="139,38,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="label3" Content="Total Charges" HorizontalAlignment="Left" Margin="265,38,0,0" VerticalAlignment="Top"/>
+        </Canvas>
+        
+        <Canvas x:Name="Item" Grid.Row="1" Grid.Column="0" Visibility="Visible">
+        </Canvas>
+
     </Grid>
 
 </Window>
