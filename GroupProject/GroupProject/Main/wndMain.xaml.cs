@@ -20,20 +20,29 @@ namespace GroupProject
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Main Logic Class
+        /// </summary>
         clsMainLogic mn;
+        
+        /// <summary>
+        /// Search Logic Class
+        /// </summary>
         clsSearchLogic sl;
-        //wndItemsLogic il;
+
+        /// <summary>
+        /// Item Logic Class
+        /// </summary>
+        ///wndItemsLogic il;
+
         public MainWindow()
         {
             InitializeComponent();
 
+            // load each of the 3 logic classes, all data will pass through here
             mn = new clsMainLogic(); // Load Main Class
             sl = new clsSearchLogic(); // Load Search Class
             //il = new wndItemsLogic(); // Load Item Class
-
-            Main.Visibility = Visibility.Visible;
-            Search.Visibility = Visibility.Hidden;
-            Item.Visibility = Visibility.Hidden;
 
         }
 
@@ -89,6 +98,16 @@ namespace GroupProject
         /// <param name="e"></param>
         private void MI_Close_Click(object sender, RoutedEventArgs e)
         {
+            MI_Close_Click();
+        }
+
+        /// <summary>
+        /// Close Loaded User Control
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MI_Close_Click()
+        {
             MI_Search.IsEnabled = true;
             MI_Close.IsEnabled = false;
             Btn_Create.IsEnabled = true;
@@ -99,29 +118,13 @@ namespace GroupProject
             Main.Visibility = Visibility.Visible;
             Search.Visibility = Visibility.Hidden;
             Item.Visibility = Visibility.Hidden;
-
         }
 
         /// <summary>
-        ///  Call User Control Save method
+        /// Create Invoice
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MI_Save_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        /// <summary>
-        /// Call Delete Method in User Control
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MI_Delete_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Btn_Create_Click(object sender, RoutedEventArgs e)
         {
             MI_Search.IsEnabled = false;
@@ -132,11 +135,21 @@ namespace GroupProject
             //Btn_Save.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Edit Invoice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Edit_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Delete Invoice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Delete_Click(object sender, RoutedEventArgs e)
         {
 
@@ -163,17 +176,9 @@ namespace GroupProject
 
             //ds = clsSearchLogic.dbAllInvoice();
             //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
-        }
 
-        /// <summary>
-        /// When closing the window, just hide
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void WndSearch1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            this.Hide();
-            e.Cancel = true;
+            grdInvoiceList.ItemsSource = sl.LoadSearchWindow();
+
         }
 
         /// <summary>
@@ -185,10 +190,17 @@ namespace GroupProject
         {
             if (cmbInvoiceDate.SelectedIndex != -1)
             {
+                //// Original Code
                 //ds = clsSearchLogic.dbSelectedDate(cmbInvoiceDate.SelectedValue.ToString());
                 //grdInvoiceList.ItemsSource = null;
                 //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
                 //grdInvoiceList.Items.Refresh();
+
+                //// What I need
+                //grdInvoiceList.ItemsSource = null;
+                //grdInvoiceList.ItemsSource = clsSearchLogic.InvoiceGetSearchScreenItemSource();
+                //grdInvoiceList.Items.Refresh();
+
             }
         }
 
@@ -223,7 +235,8 @@ namespace GroupProject
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            //this.Hide();
+            MI_Close_Click();
         }
 
         /// <summary>

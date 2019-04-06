@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -69,5 +70,10 @@ class clsSearchLogic
         return db.ExecuteSQLStatement(clsSearchSQL.selectedCharge(charge), ref numberReturned);
     }
 
+    internal IEnumerable LoadSearchWindow()
+    {
+        ds = clsSearchLogic.dbAllInvoice();
+        return ds.Tables[0].DefaultView;
+    }
 }
 
