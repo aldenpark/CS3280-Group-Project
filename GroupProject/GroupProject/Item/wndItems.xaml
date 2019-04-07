@@ -1,0 +1,23 @@
+﻿<Window x:Class="GroupProject.Items.wndItems"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GroupProject.Items"
+        mc:Ignorable="d"
+        Title="wndItems" Height="477.2" Width="668.8">
+    <Grid Margin="0,0,-4.8,-0.2">
+        <ComboBox x:Name="ItemListDropDown" HorizontalAlignment="Left" Margin="51,88,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.488,0.518" SelectedIndex="0">
+            <Label Content="Select Item"/>
+        </ComboBox>
+        <Label x:Name="EditInvoiceLabel" Content="Edit Invoice Items" HorizontalAlignment="Left" Margin="51,21,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Button x:Name="AddItemToInvoiceButton" Content="Add Item to Invoice" HorizontalAlignment="Left" Margin="51,331,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="RemoveItemToInvoiceButton" Content=" Remove Item from Invoice" HorizontalAlignment="Left" Margin="403,331,0,0" VerticalAlignment="Top" Width="153"/>
+        <Button x:Name="SaveInvoiceButton" Content="Save Invoice" HorizontalAlignment="Left" Margin="441,356,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox x:Name="CostTextBox" HorizontalAlignment="Left" Height="23" Margin="51,296,0,0" TextWrapping="Wrap" Text="$" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TotalCostTextBox" HorizontalAlignment="Left" IsReadOnly="True" Height="23" Margin="346,282,0,0" TextWrapping="Wrap" Text="Total Cost" VerticalAlignment="Top" Width="254" TextAlignment="Right"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="272,400,0,0" VerticalAlignment="Top" Width="90" Height="29" Background="Red"/>
+        <ListBox x:Name="InvoiceListBox" HorizontalAlignment="Left" Height="241" Margin="346,21,0,0" VerticalAlignment="Top" Width="254"/>
+
+    </Grid>
+</Window>

@@ -97,6 +97,7 @@ namespace GroupProject
             Btn_Edit.IsEnabled = false;
             Btn_Delete.IsEnabled = false;
             //Btn_Save.IsEnabled = false;
+            Btn_Delete.Content = "Delete";
 
             Main.Visibility = Visibility.Visible;
             Search.Visibility = Visibility.Hidden;
@@ -117,7 +118,14 @@ namespace GroupProject
             Btn_Delete.IsEnabled = true;
             //Btn_Save.IsEnabled = true;
 
+            Btn_Delete.Content = "Cancel";
+
             // Invoice data will be updated through clsItemLogic class
+
+
+            Main.Visibility = Visibility.Hidden;
+            Search.Visibility = Visibility.Hidden;
+            Item.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -138,6 +146,8 @@ namespace GroupProject
         private void Btn_Delete_Click(object sender, RoutedEventArgs e)
         {
             // Invoice data will be updated through clsItemLogic class
+
+            MI_Close_Click();
         }
 
         // -------------- Search UI functions
@@ -219,6 +229,8 @@ namespace GroupProject
         private void BtnSelect_Click(object sender, RoutedEventArgs e)
         {
             // Search data will be loaded through clsSearchLogic class
+
+            MI_Close_Click();
 
             //Pass on selected invoice to main
             //IList rows = grdInvoiceList.SelectedItems;
