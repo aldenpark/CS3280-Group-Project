@@ -11,7 +11,9 @@ namespace GroupProject.Main
 {
     class clsMainSQL
     {
-        // What do I need to quiry as part of the business logic?
+        // What do I need to query as part of the business logic?
+
+        // example
         //internal static string someQuery
         //{
         //    get

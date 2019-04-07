@@ -10,6 +10,7 @@ namespace GroupProject
     {
         // What business logic is there?
 
+        // example
         //public static List<Definitions> GetDefinitions()
         //{
 

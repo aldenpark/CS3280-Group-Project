@@ -75,24 +75,7 @@ namespace GroupProject
         }
 
         /// <summary>
-        /// Load New Invoice User Control
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void MI_NewInvoice_Click(object sender, RoutedEventArgs e)
-        //{
-            //MI_Search.IsEnabled = true;
-            //MI_Close.IsEnabled = false;
-            //Btn_Create.IsEnabled = true;
-            //Btn_Edit.IsEnabled = false;
-            //Btn_Delete.IsEnabled = false;
-            //Btn_Save.IsEnabled = false;
-
-        //    //WP_Invoice.Children.Add(new Main.UC_Definition());
-        //}
-
-        /// <summary>
-        /// Close Loaded User Control
+        /// Close window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -102,7 +85,7 @@ namespace GroupProject
         }
 
         /// <summary>
-        /// Close Loaded User Control
+        /// Close window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -133,6 +116,8 @@ namespace GroupProject
             Btn_Edit.IsEnabled = false;
             Btn_Delete.IsEnabled = true;
             //Btn_Save.IsEnabled = true;
+
+            // Invoice data will be updated through clsItemLogic class
         }
 
         /// <summary>
@@ -142,7 +127,7 @@ namespace GroupProject
         /// <param name="e"></param>
         private void Btn_Edit_Click(object sender, RoutedEventArgs e)
         {
-
+            // Invoice data will be updated through clsItemLogic class
         }
 
         /// <summary>
@@ -152,7 +137,7 @@ namespace GroupProject
         /// <param name="e"></param>
         private void Btn_Delete_Click(object sender, RoutedEventArgs e)
         {
-
+            // Invoice data will be updated through clsItemLogic class
         }
 
         // -------------- Search UI functions
@@ -174,6 +159,8 @@ namespace GroupProject
             Btn_Delete.IsEnabled = false;
             //Btn_Save.IsEnabled = false;
 
+            // Search data will be loaded through clsSearchLogic class
+
             //ds = clsSearchLogic.dbAllInvoice();
             //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
 
@@ -190,13 +177,15 @@ namespace GroupProject
         {
             if (cmbInvoiceDate.SelectedIndex != -1)
             {
-                //// Original Code
+                // Search data will be loaded through clsSearchLogic class
+
+                //// I think parts of this needs moved to the logic class
                 //ds = clsSearchLogic.dbSelectedDate(cmbInvoiceDate.SelectedValue.ToString());
                 //grdInvoiceList.ItemsSource = null;
                 //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
                 //grdInvoiceList.Items.Refresh();
 
-                //// What I need
+                //// Is this ok?  Can I make these updates to the search class? - Alden
                 //grdInvoiceList.ItemsSource = null;
                 //grdInvoiceList.ItemsSource = clsSearchLogic.InvoiceGetSearchScreenItemSource();
                 //grdInvoiceList.Items.Refresh();
@@ -213,6 +202,8 @@ namespace GroupProject
         {
             if (cmbInvoiceCharges.SelectedIndex != -1)
             {
+                // Search data will be loaded through clsSearchLogic class
+
                 //ds = clsSearchLogic.dbSelectedCharge(cmbInvoiceCharges.SelectedValue.ToString());
                 //grdInvoiceList.ItemsSource = null;
                 //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
@@ -227,6 +218,8 @@ namespace GroupProject
         /// <param name="e"></param>
         private void BtnSelect_Click(object sender, RoutedEventArgs e)
         {
+            // Search data will be loaded through clsSearchLogic class
+
             //Pass on selected invoice to main
             //IList rows = grdInvoiceList.SelectedItems;
             //DataRowView row = (DataRowView)grdInvoiceList.SelectedItems[0];
@@ -235,7 +228,6 @@ namespace GroupProject
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            //this.Hide();
             MI_Close_Click();
         }
 
@@ -246,6 +238,8 @@ namespace GroupProject
         /// <param name="e"></param>
         private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
+            // Search data will be loaded through clsSearchLogic class
+
             //grdInvoiceList.ItemsSource = null;
             //grdInvoiceList.Items.Refresh();
             //cmbInvoiceCharges.SelectedIndex = -1;
@@ -266,6 +260,8 @@ namespace GroupProject
             //populate with selected value
             if (cmbInvoiceNumber.SelectedIndex != -1)
             {
+                // Search data will be loaded through clsSearchLogic class
+
                 //ds = clsSearchLogic.dbSelectedInvoice(Int32.Parse(cmbInvoiceNumber.SelectedValue.ToString()));
                 //grdInvoiceList.ItemsSource = null;
                 //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
