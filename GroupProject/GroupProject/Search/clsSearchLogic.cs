@@ -75,5 +75,23 @@ class clsSearchLogic
         ds = clsSearchLogic.dbAllInvoice();
         return ds.Tables[0].DefaultView;
     }
+
+    internal IEnumerable SelectedDateSearchWindow(string v)
+    {
+        ds = clsSearchLogic.dbSelectedDate(v);
+        return ds.Tables[0].DefaultView;
+    }
+
+    internal IEnumerable SelectedChargeSearchWindow(string v)
+    {
+        ds = clsSearchLogic.dbSelectedCharge(v);
+        return ds.Tables[0].DefaultView;
+    }
+
+    internal IEnumerable SelectedInvoiceSearchWindow(int v)
+    {
+        ds = clsSearchLogic.dbSelectedInvoice(v);
+        return ds.Tables[0].DefaultView;
+    }
 }
 

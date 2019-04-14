@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -195,10 +197,8 @@ namespace GroupProject
                 //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
                 //grdInvoiceList.Items.Refresh();
 
-                //// Is this ok?  Can I make these updates to the search class? - Alden
-                //grdInvoiceList.ItemsSource = null;
-                //grdInvoiceList.ItemsSource = clsSearchLogic.InvoiceGetSearchScreenItemSource();
-                //grdInvoiceList.Items.Refresh();
+                grdInvoiceList.ItemsSource = sl.SelectedDateSearchWindow(cmbInvoiceDate.SelectedValue.ToString());
+                grdInvoiceList.Items.Refresh();
 
             }
         }
@@ -218,11 +218,14 @@ namespace GroupProject
                 //grdInvoiceList.ItemsSource = null;
                 //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
                 //grdInvoiceList.Items.Refresh();
+
+                grdInvoiceList.ItemsSource = sl.SelectedChargeSearchWindow(cmbInvoiceCharges.SelectedValue.ToString());
+                grdInvoiceList.Items.Refresh();
             }
         }
 
         /// <summary>
-        /// when an Item is selected and passed back to the main window
+        /// when an Item is selected and passed back to the main window, then load this in item
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -230,12 +233,13 @@ namespace GroupProject
         {
             // Search data will be loaded through clsSearchLogic class
 
-            MI_Close_Click();
-
             //Pass on selected invoice to main
-            //IList rows = grdInvoiceList.SelectedItems;
-            //DataRowView row = (DataRowView)grdInvoiceList.SelectedItems[0];
-            //MessageBox.Show("Pass back invoice num: " + row["InvoiceNum"].ToString());
+            IList rows = grdInvoiceList.SelectedItems;
+            DataRowView row = (DataRowView)grdInvoiceList.SelectedItems[0];
+            MessageBox.Show("Pass back invoice num: " + row["InvoiceNum"].ToString());
+            // Need furher info to update items display
+            //il.GetInvoice(row["InvoiceNum"].ToString());  load into InvoiceListBox?, what elements needs loaded?, do you have a working example?
+            MI_Close_Click();
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
@@ -259,6 +263,10 @@ namespace GroupProject
             //cmbInvoiceNumber.SelectedIndex = -1;
             //ds = clsSearchLogic.dbAllInvoice();
             //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
+
+            grdInvoiceList.ItemsSource = sl.LoadSearchWindow();
+            grdInvoiceList.Items.Refresh();
+            cmbInvoiceCharges.SelectedIndex = -1;
         }
 
         /// <summary>
@@ -278,6 +286,9 @@ namespace GroupProject
                 //grdInvoiceList.ItemsSource = null;
                 //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
                 //grdInvoiceList.Items.Refresh();
+
+                grdInvoiceList.ItemsSource = sl.SelectedInvoiceSearchWindow(Int32.Parse(cmbInvoiceNumber.SelectedValue.ToString()));
+                grdInvoiceList.Items.Refresh();
             }
 
         }
