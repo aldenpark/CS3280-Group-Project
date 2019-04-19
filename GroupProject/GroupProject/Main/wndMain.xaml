@@ -57,7 +57,7 @@
             <Button x:Name="btnSelect" Content="Select" HorizontalAlignment="Left" Margin="10,355,0,0" VerticalAlignment="Top" Width="120" Click="BtnSelect_Click"/>
             <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="262,355,0,0" VerticalAlignment="Top" Width="123" Click="BtnCancel_Click"/>
             <Button x:Name="btnClear" Content="Clear Selection" HorizontalAlignment="Left" Margin="134,355,0,0" VerticalAlignment="Top" Width="123" Click="BtnClear_Click"/>
-            <DataGrid x:Name="grdInvoiceList" HorizontalAlignment="Left" Height="259" Margin="10,91,0,0" VerticalAlignment="Top" Width="375"/>
+            <DataGrid x:Name="grdInvoiceList" HorizontalAlignment="Left" Height="259" Margin="10,91,0,0" VerticalAlignment="Top" Width="375" IsReadOnly="True"/>
             <ComboBox x:Name="cmbInvoiceNumber" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="CmbInvoiceNumber_SelectionChanged"/>
             <Label x:Name="label" Content="Search Invoices" HorizontalAlignment="Left" Margin="134,7,0,0" VerticalAlignment="Top" FontSize="16" Style="{StaticResource lbl_White_Font}"/>
             <ComboBox x:Name="cmbInvoiceDate" HorizontalAlignment="Left" Margin="137,64,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="CmbInvoiceDate_SelectionChanged"/>

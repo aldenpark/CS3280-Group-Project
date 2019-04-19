@@ -39,7 +39,7 @@ class clsSearchSQL
     /// <returns></returns>
     public static string selectedDate(string date)
     {
-        return "SELECT * FROM Invoices WHERE InvoiceDate = #" + date +"#";
+        return "SELECT * FROM Invoices WHERE InvoiceDate = #" + date + "#";
     }
 
     /// <summary>
@@ -51,5 +51,17 @@ class clsSearchSQL
     {
         return "SELECT * FROM Invoices WHERE TotalCost = " + charge;
     }
+    /// <summary>
+    /// returns anded string of all parameters for invoices
+    /// </summary>
+    /// <param name="num"></param>
+    /// <param name="date"></param>
+    /// <param name="charge"></param>
+    /// <returns></returns>
+    public static string updateAll(string num, string date, string charge)
+    {
+        return "SELECT * FROM Invoices WHERE TotalCost = " + charge + " AND InvoiceDate = #" + date + "#" + "AND InvoiceNum = " + num.ToString();
+    }
+
 }
 

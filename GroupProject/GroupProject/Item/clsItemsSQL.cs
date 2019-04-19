@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 
-namespace GroupProject.Items
+namespace GroupProject
 {
     class clsItemsSQL
     {

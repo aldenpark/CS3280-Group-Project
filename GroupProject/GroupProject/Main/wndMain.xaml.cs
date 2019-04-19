@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -45,7 +46,6 @@ namespace GroupProject
             mn = new clsMainLogic(); // Load Main Class
             sl = new clsSearchLogic(); // Load Search Class
             //il = new wndItemsLogic(); // Load Item Class
-
         }
 
         /// <summary>
@@ -171,13 +171,17 @@ namespace GroupProject
             Btn_Delete.IsEnabled = false;
             //Btn_Save.IsEnabled = false;
 
-            // Search data will be loaded through clsSearchLogic class
-
-            //ds = clsSearchLogic.dbAllInvoice();
-            //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
-
-            grdInvoiceList.ItemsSource = sl.LoadSearchWindow();
-
+            try
+            {
+                grdInvoiceList.ItemsSource = sl.LoadSearchWindow();
+                cmbInvoiceNumber.ItemsSource = sl.getcmbInvoiceNumberItems();
+                cmbInvoiceDate.ItemsSource = sl.getcmbInvoiceDateItems();
+                cmbInvoiceCharges.ItemsSource = sl.getcmbInvoiceCostItems();
+            }
+            catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
         /// <summary>
@@ -189,17 +193,13 @@ namespace GroupProject
         {
             if (cmbInvoiceDate.SelectedIndex != -1)
             {
-                // Search data will be loaded through clsSearchLogic class
-
-                //// I think parts of this needs moved to the logic class
-                //ds = clsSearchLogic.dbSelectedDate(cmbInvoiceDate.SelectedValue.ToString());
-                //grdInvoiceList.ItemsSource = null;
-                //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
-                //grdInvoiceList.Items.Refresh();
-
-                grdInvoiceList.ItemsSource = sl.SelectedDateSearchWindow(cmbInvoiceDate.SelectedValue.ToString());
-                grdInvoiceList.Items.Refresh();
-
+                try {
+                    grdInvoiceList.ItemsSource = sl.SelectedDateSearchWindow(cmbInvoiceDate.SelectedValue.ToString());
+                }
+                catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+                {
+                    HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                }
             }
         }
 
@@ -212,15 +212,13 @@ namespace GroupProject
         {
             if (cmbInvoiceCharges.SelectedIndex != -1)
             {
-                // Search data will be loaded through clsSearchLogic class
-
-                //ds = clsSearchLogic.dbSelectedCharge(cmbInvoiceCharges.SelectedValue.ToString());
-                //grdInvoiceList.ItemsSource = null;
-                //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
-                //grdInvoiceList.Items.Refresh();
-
-                grdInvoiceList.ItemsSource = sl.SelectedChargeSearchWindow(cmbInvoiceCharges.SelectedValue.ToString());
-                grdInvoiceList.Items.Refresh();
+                try {
+                    grdInvoiceList.ItemsSource = sl.SelectedChargeSearchWindow(cmbInvoiceCharges.SelectedValue.ToString());
+                }
+                catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+                {
+                    HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                }
             }
         }
 
@@ -254,19 +252,22 @@ namespace GroupProject
         /// <param name="e"></param>
         private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
-            // Search data will be loaded through clsSearchLogic class
+            try {
+                grdInvoiceList.ItemsSource = sl.LoadSearchWindow();
+                grdInvoiceList.Items.Refresh();
+                cmbInvoiceCharges.SelectedIndex = -1;
 
-            //grdInvoiceList.ItemsSource = null;
-            //grdInvoiceList.Items.Refresh();
-            //cmbInvoiceCharges.SelectedIndex = -1;
-            //cmbInvoiceDate.SelectedIndex = -1;
-            //cmbInvoiceNumber.SelectedIndex = -1;
-            //ds = clsSearchLogic.dbAllInvoice();
-            //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
-
-            grdInvoiceList.ItemsSource = sl.LoadSearchWindow();
-            grdInvoiceList.Items.Refresh();
-            cmbInvoiceCharges.SelectedIndex = -1;
+                cmbInvoiceNumber.ItemsSource = sl.getcmbInvoiceNumberItems();
+                cmbInvoiceNumber.SelectedIndex = -1;
+                cmbInvoiceDate.ItemsSource = sl.getcmbInvoiceDateItems();
+                cmbInvoiceDate.SelectedIndex = -1;
+                cmbInvoiceCharges.ItemsSource = sl.getcmbInvoiceCostItems();
+                cmbInvoiceCharges.SelectedIndex = -1;
+            }
+            catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
         }
 
         /// <summary>
@@ -280,16 +281,20 @@ namespace GroupProject
             //populate with selected value
             if (cmbInvoiceNumber.SelectedIndex != -1)
             {
-                // Search data will be loaded through clsSearchLogic class
-
-                //ds = clsSearchLogic.dbSelectedInvoice(Int32.Parse(cmbInvoiceNumber.SelectedValue.ToString()));
-                //grdInvoiceList.ItemsSource = null;
-                //grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
-                //grdInvoiceList.Items.Refresh();
-
-                grdInvoiceList.ItemsSource = sl.SelectedInvoiceSearchWindow(Int32.Parse(cmbInvoiceNumber.SelectedValue.ToString()));
-                grdInvoiceList.Items.Refresh();
+                try
+                {
+                    grdInvoiceList.ItemsSource = sl.SelectedInvoiceSearchWindow(Int32.Parse(cmbInvoiceNumber.SelectedValue.ToString()));
+                }
+                catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+                {
+                    HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                }
             }
+
+        }
+
+        private void CmbInvoiceCharges_SelectionChanged(object sender, DataTransferEventArgs e)
+        {
 
         }
     }
