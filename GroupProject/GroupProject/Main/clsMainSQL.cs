@@ -7,11 +7,24 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GroupProject.Main
+namespace GroupProject
 {
     class clsMainSQL
     {
-        // No Main SQL
+        /// <summary>
+        /// Get invoice
+        /// </summary>
+        internal static string GetInvoice
+        {
+            get
+            {
+                return "SELECT Invoices.InvoiceNum, Invoices.InvoiceDate, ItemDesc.ItemCode, ItemDesc.ItemDesc, ItemDesc.Cost " +
+                            "FROM((Invoices INNER JOIN " +
+                            "LineItems ON Invoices.InvoiceNum = LineItems.InvoiceNum) INNER JOIN " +
+                            "ItemDesc ON LineItems.ItemCode = ItemDesc.ItemCode) " +
+                            "WHERE Invoices.InvoiceNum = {0}";
+            }
+        }
     }
 
 }

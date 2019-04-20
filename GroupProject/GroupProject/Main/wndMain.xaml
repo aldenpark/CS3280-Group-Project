@@ -47,10 +47,34 @@
 
         <Button x:Name="Btn_Create" Grid.Column="0" Content="Create" HorizontalAlignment="Left" Height="21" Margin="379,30,0,0" VerticalAlignment="Top" Width="75" Click="Btn_Create_Click"/>
         <Button x:Name="Btn_Edit" Grid.Column="0" Content="Edit" HorizontalAlignment="Left" Height="21" Margin="459,30,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="Btn_Edit_Click"/>
+        <Button x:Name="Btn_Save" Grid.Column="0" Content="Save" HorizontalAlignment="Left" Height="21" Margin="459,30,0,0" VerticalAlignment="Top" Width="75" IsEnabled="True" Click="Btn_Save_Click" Visibility="Hidden"/>
         <Button x:Name="Btn_Delete" Grid.Column="0" Content="Delete" HorizontalAlignment="Left" Height="21" Margin="539,30,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="Btn_Delete_Click"/>
+        <Button x:Name="Btn_Cancel" Grid.Column="0" Content="Cancel" HorizontalAlignment="Left" Height="21" Margin="539,30,0,0" VerticalAlignment="Top" Width="75" Click="MI_Close_Click" Visibility="Hidden"/>
 
         <Canvas x:Name="Main" Grid.Row="2" Grid.Column="0" Visibility="Visible" Margin="100,40,0,0">
             <Image HorizontalAlignment="Left" Height="64" Margin="152,119,0,-119" VerticalAlignment="Top" Width="100" Source="Invoicing.png"/>
+        </Canvas>
+
+        <Canvas x:Name="Invoice" Grid.Row="2" Grid.Column="0" Visibility="Hidden" Margin="135,45,0,0">
+            <Label x:Name="lbl_InvoiceNumber" Content="Invoice #: TBD" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Style="{StaticResource lbl_White_Font}" Canvas.Left="11" Canvas.Top="27"/>
+            <Label x:Name="lbl_InvoiceDate" Content="01/01/0000" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="16" Style="{StaticResource lbl_White_Font}" Canvas.Left="294" Canvas.Top="27" Width="91"/>
+
+            <Label x:Name="lbl_InvoiceItms" Content="Items:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Style="{StaticResource lbl_White_Font}" Canvas.Left="10" Canvas.Top="63" Width="79"/>
+            <ComboBox x:Name="cb_InvoiceItems" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="154" Canvas.Left="10" Canvas.Top="99"/>
+            <Label x:Name="lbl_InvoiceItmsCst" Content="Cost:" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="16" Style="{StaticResource lbl_White_Font}" Canvas.Left="268" Canvas.Top="63" RenderTransformOrigin="1.391,0.419" Width="75"/>
+            <TextBox x:Name="tb_InvoiceItemsCost" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="117" Canvas.Left="268" Canvas.Top="99"/>
+
+            <Button x:Name="btn_AddToInvoice" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Click="Btn_UpdateInvoice_Click" Canvas.Left="10" Canvas.Top="139"/>
+            <Button x:Name="btn_RemoveFromInvoice" Content="Remove" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Click="Btn_UpdateInvoice_Click" Canvas.Left="70" Canvas.Top="139"/>
+
+            <DataGrid x:Name="DG_Items" HorizontalAlignment="Left" Height="130" VerticalAlignment="Top" Width="375" RenderTransformOrigin="0.515,0.776" Canvas.Left="10" Canvas.Top="164" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Code" Binding="{Binding Path=Code}" MinWidth="50"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}" MinWidth="250"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Cost" Binding="{Binding Path=Cost, StringFormat=C2}" MinWidth="67"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Label x:Name="lbl_InvoiceTotalCost" Content="$1000.00" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="16" Style="{StaticResource lbl_White_Font}" Canvas.Left="294" Canvas.Top="299" Width="91"/>
         </Canvas>
 
         <Canvas x:Name="Search" Grid.Row="2" Grid.Column="0" Visibility="Hidden" Margin="135,45,0,0">

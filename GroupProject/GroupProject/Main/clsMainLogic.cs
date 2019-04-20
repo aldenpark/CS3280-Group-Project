@@ -1,137 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GroupProject
 {
+    struct Invoice
+    {
+        /// <summary>
+        /// Invoice number
+        /// </summary>
+        public string InvoiceNumber;
+
+        /// <summary>
+        /// Invoice date
+        /// </summary>
+        public DateTime InvoiceDate;
+
+        /// <summary>
+        /// Items attached to invoice
+        /// </summary>
+        public List<Item> Items { get; set; }
+        
+        /// <summary>
+        /// Total cost of all items attached to invoice
+        /// </summary>
+        public double Cost
+        {
+            get
+            {
+                return this.Items.Select(i => i.Cost).Sum();
+            }
+        }
+    }
+
+    struct Item
+    {
+        /// <summary>
+        /// db id of item
+        /// </summary>
+        public string Code { get; set; }
+
+        /// <summary>
+        /// name of item
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
+        /// cost of item
+        /// </summary>
+        public double Cost { get; set; }
+    }
+
     class clsMainLogic
     {
-        // No Main logic, all changes were applied to other classes
+        clsDataAccess clsData;
 
-        /**
-         * Additional Search Methods created
-    public clsSearchLogic()
-    {
-        try {
-            ds = clsSearchLogic.dbAllInvoice();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-        }
-    }
+        // save invoice 
 
-    /// <summary>
-    /// get list of invoice numbers for drop down
-    /// </summary>
-    /// <returns></returns>
-    internal List<string> getcmbInvoiceNumberItems()
-    {
-        List<string> temp = new List<string>();
-        for (int i = 0; i < clsSearchLogic.numberReturned; i++)
-        {
-            temp.Add(ds.Tables[0].Rows[i]["InvoiceNum"].ToString());
-        }
-        return temp;
-    }
+        // update invoice
 
-    /// <summary>
-    /// get list of invoice dates for drop down
-    /// </summary>
-    /// <returns></returns>
-    internal List<string> getcmbInvoiceDateItems()
-    {
-        List<string> temp = new List<string>();
-        for (int i = 0; i < clsSearchLogic.numberReturned; i++)
+        internal Invoice GetInvoice(int id)
         {
-            temp.Add(ds.Tables[0].Rows[i]["InvoiceDate"].ToString());
-        }
-        return temp;
-    }
+            Invoice inv = new Invoice();
+            inv.Items = new List<Item>();
 
-    /// <summary>
-    /// get list of invoice costs for drop down
-    /// </summary>
-    /// <returns></returns>
-    internal List<int> getcmbInvoiceCostItems()
-    {
-        List<int> temp = new List<int>();
-        for (int i = 0; i < clsSearchLogic.numberReturned; i++)
-        {
-            temp.Add(Int32.Parse(ds.Tables[0].Rows[i]["TotalCost"].ToString()));
-        }
-        temp.Sort();
-        return temp;
-    }
+            //try
+            //{
+            DataSet ds = new DataSet();
+                string sSQL = String.Format(clsMainSQL.GetInvoice, id);
+                int iRet = 0;
+                clsData = new clsDataAccess();
 
-    /// <summary>
-    /// return Invoice Data
-    /// </summary>
-    /// <returns></returns>
-    internal IEnumerable LoadSearchWindow()
-    {
-        try {
-            ds = clsSearchLogic.dbAllInvoice();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-        }
-        return ds.Tables[0].DefaultView;
-    }
+                ds = clsData.ExecuteSQLStatement(sSQL, ref iRet);
 
-    /// <summary>
-    /// return search Window data by date
-    /// </summary>
-    /// <param name="v"></param>
-    /// <returns></returns>
-    internal IEnumerable SelectedDateSearchWindow(string v)
-    {
-        try {
-            ds = clsSearchLogic.dbSelectedDate(v);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-        }
-        return ds.Tables[0].DefaultView;
-    }
+                for (int i = 0; i < iRet; i++)
+                {
+                    inv.InvoiceNumber = ds.Tables[0].Rows[i][0].ToString();
+                    inv.InvoiceDate = DateTime.Parse(ds.Tables[0].Rows[i][1].ToString());
+                    inv.Items.Add(new Item()
+                    {
+                        Code = ds.Tables[0].Rows[i][2].ToString(),
+                        Description = ds.Tables[0].Rows[i][3].ToString(),
+                        Cost = int.Parse(ds.Tables[0].Rows[i][4].ToString())
+                    });
+                }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            //}
 
-    /// <summary>
-    /// return search window data by charge
-    /// </summary>
-    /// <param name="v"></param>
-    /// <returns></returns>
-    internal IEnumerable SelectedChargeSearchWindow(string v)
-    {
-        try {
-            ds = clsSearchLogic.dbSelectedCharge(v);
+            return inv;
         }
-        catch (Exception ex)
-        {
-            throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-        }
-        return ds.Tables[0].DefaultView;
-    }
-
-    /// <summary>
-    /// return search window data by selected invoice
-    /// </summary>
-    /// <param name="v"></param>
-    /// <returns></returns>
-    internal IEnumerable SelectedInvoiceSearchWindow(int v)
-    {
-        try {
-            ds = clsSearchLogic.dbSelectedInvoice(v);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-        }
-        return ds.Tables[0].DefaultView;
-    }
-        */
     }
 }

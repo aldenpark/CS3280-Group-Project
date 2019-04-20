@@ -98,10 +98,14 @@ namespace GroupProject
             Btn_Create.IsEnabled = true;
             Btn_Edit.IsEnabled = false;
             Btn_Delete.IsEnabled = false;
-            //Btn_Save.IsEnabled = false;
-            Btn_Delete.Content = "Delete";
+            Btn_Edit.Visibility = Visibility.Visible;
+            Btn_Save.Visibility = Visibility.Hidden;
+            Btn_Delete.Visibility = Visibility.Visible;
+            Btn_Cancel.Visibility = Visibility.Hidden;
+
 
             Main.Visibility = Visibility.Visible;
+            Invoice.Visibility = Visibility.Hidden;
             Search.Visibility = Visibility.Hidden;
             Item.Visibility = Visibility.Hidden;
         }
@@ -118,16 +122,19 @@ namespace GroupProject
             Btn_Create.IsEnabled = false;
             Btn_Edit.IsEnabled = false;
             Btn_Delete.IsEnabled = true;
-            //Btn_Save.IsEnabled = true;
-
             Btn_Delete.Content = "Cancel";
+            Btn_Edit.Visibility = Visibility.Hidden;
+            Btn_Save.Visibility = Visibility.Visible;
+            Btn_Delete.Visibility = Visibility.Hidden;
+            Btn_Cancel.Visibility = Visibility.Visible;
 
             // Invoice data will be updated through clsItemLogic class
 
 
             Main.Visibility = Visibility.Hidden;
+            Invoice.Visibility = Visibility.Visible;
             Search.Visibility = Visibility.Hidden;
-            Item.Visibility = Visibility.Visible;
+            Item.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -150,6 +157,71 @@ namespace GroupProject
             // Invoice data will be updated through clsItemLogic class
 
             MI_Close_Click();
+        }
+
+        private void CmbInvoiceCharges_SelectionChanged(object sender, DataTransferEventArgs e)
+        {
+
+        }
+
+        private void Btn_UpdateInvoice_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Btn_Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void openInvoice(int id)
+        {
+            MI_Search.IsEnabled = true;
+            MI_Close.IsEnabled = false;
+            Btn_Create.IsEnabled = true;
+            Btn_Edit.IsEnabled = false;
+            Btn_Delete.IsEnabled = false;
+            Btn_Edit.Visibility = Visibility.Visible;
+            Btn_Save.Visibility = Visibility.Hidden;
+            Btn_Delete.Visibility = Visibility.Visible;
+            Btn_Cancel.Visibility = Visibility.Hidden;
+
+            Main.Visibility = Visibility.Hidden;
+            Invoice.Visibility = Visibility.Visible;
+            Search.Visibility = Visibility.Hidden;
+            Item.Visibility = Visibility.Hidden;
+
+            //cb_InvoiceItems
+            //tb_InvoiceItemsCost
+
+            //try
+            //{
+                Invoice inv = mn.GetInvoice(id);
+
+                lbl_InvoiceNumber.Content = inv.InvoiceNumber;
+                lbl_InvoiceDate.Content = inv.InvoiceDate;
+                lbl_InvoiceTotalCost.Content = string.Format("{0:C}", Convert.ToDecimal(inv.Cost));
+                DG_Items.ItemsSource = inv.Items;
+            //}
+            //catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            //{
+            //    HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            //}
+
+            //DG_Items.ColumnCount = 3;
+            //DG_Items.Columns[0].Name = "Product ID";
+            //DG_Items.Columns[1].Name = "Product Name";
+            //DG_Items.Columns[2].Name = "Product Price";
+
+            //string[] row = new string[] { "1", "Product 1", "1000" };
+            //dataGridView1.Rows.Add(row);
+            //row = new string[] { "2", "Product 2", "2000" };
+            //dataGridView1.Rows.Add(row);
+            //row = new string[] { "3", "Product 3", "3000" };
+            //dataGridView1.Rows.Add(row);
+            //row = new string[] { "4", "Product 4", "4000" };
+            //dataGridView1.Rows.Add(row);
+
         }
 
         // -------------- Search UI functions
@@ -229,15 +301,10 @@ namespace GroupProject
         /// <param name="e"></param>
         private void BtnSelect_Click(object sender, RoutedEventArgs e)
         {
-            // Search data will be loaded through clsSearchLogic class
-
-            //Pass on selected invoice to main
             IList rows = grdInvoiceList.SelectedItems;
             DataRowView row = (DataRowView)grdInvoiceList.SelectedItems[0];
-            MessageBox.Show("Pass back invoice num: " + row["InvoiceNum"].ToString());
-            // Need furher info to update items display
-            //il.GetInvoice(row["InvoiceNum"].ToString());  load into InvoiceListBox?, what elements needs loaded?, do you have a working example?
             MI_Close_Click();
+            openInvoice(Int32.Parse(row["InvoiceNum"].ToString()));
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
@@ -293,9 +360,7 @@ namespace GroupProject
 
         }
 
-        private void CmbInvoiceCharges_SelectionChanged(object sender, DataTransferEventArgs e)
-        {
+        // -------------- Items UI functions
 
-        }
     }
 }
