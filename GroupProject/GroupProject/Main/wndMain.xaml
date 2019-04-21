@@ -53,7 +53,7 @@
         <Button x:Name="Btn_Cancel" Grid.Column="0" Content="Cancel" HorizontalAlignment="Left" Height="21" Margin="539,30,0,0" VerticalAlignment="Top" Width="75" Click="MI_Close_Click" Visibility="Hidden"/>
 
         <Canvas x:Name="Main" Grid.Row="2" Grid.Column="0" Visibility="Visible" Margin="100,40,0,0">
-            <Image HorizontalAlignment="Left" Height="64" Margin="152,119,0,-119" VerticalAlignment="Top" Width="100" Source="Invoicing.png"/>
+            <Image HorizontalAlignment="Left" Height="64" VerticalAlignment="Top" Width="100" Source="Invoicing.png" Canvas.Left="147" Canvas.Top="115"/>
         </Canvas>
 
         <Canvas x:Name="Invoice" Grid.Row="2" Grid.Column="0" Visibility="Hidden" Margin="135,45,0,0">
@@ -93,18 +93,24 @@
             <Label x:Name="label3" Content="Total Charges" HorizontalAlignment="Left" Margin="265,38,0,0" VerticalAlignment="Top" Style="{StaticResource lbl_White_Font}"/>
         </Canvas>
 
-        <Canvas x:Name="Item" Grid.Column="0" Visibility="Hidden" Margin="0,45,0,29">
-            <ComboBox x:Name="ItemListDropDown" HorizontalAlignment="Left" Margin="51,88,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.488,0.518" SelectedIndex="0">
-                <Label Content="Select Item"/>
-            </ComboBox>
-            <Label x:Name="EditInvoiceLabel" Content="Edit Invoice Items" HorizontalAlignment="Left" Margin="51,21,0,0" VerticalAlignment="Top" FontSize="16" Style="{StaticResource lbl_White_Font}"/>
-            <Button x:Name="AddItemToInvoiceButton" Content="Add Item to Invoice" HorizontalAlignment="Left" Margin="51,331,0,0" VerticalAlignment="Top" Width="120"/>
-            <Button x:Name="RemoveItemToInvoiceButton" Content=" Remove Item from Invoice" HorizontalAlignment="Left" Margin="403,331,0,0" VerticalAlignment="Top" Width="153"/>
-            <Button x:Name="SaveInvoiceButton" Content="Save Invoice" HorizontalAlignment="Left" Margin="441,356,0,0" VerticalAlignment="Top" Width="75"/>
-            <TextBox x:Name="CostTextBox" HorizontalAlignment="Left" Height="23" Margin="51,296,0,0" TextWrapping="Wrap" Text="$" VerticalAlignment="Top" Width="120"/>
-            <TextBox x:Name="TotalCostTextBox" HorizontalAlignment="Left" IsReadOnly="True" Height="23" Margin="346,282,0,0" TextWrapping="Wrap" Text="Total Cost" VerticalAlignment="Top" Width="254" TextAlignment="Right"/>
-            <ListBox x:Name="InvoiceListBox" HorizontalAlignment="Left" Height="241" Margin="346,21,0,0" VerticalAlignment="Top" Width="254"/>
+        <Canvas x:Name="Item" Grid.Column="0" Visibility="Visible" Margin="0,45,0,29">
+            <Label x:Name="EditInvoiceLabel" Content="Edit Inventory Items" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Style="{StaticResource lbl_White_Font}" Canvas.Left="36" Canvas.Top="-9"/>
+            <Button x:Name="btnAddNewItem" Content="Add New Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="99" Canvas.Left="36" Canvas.Top="279" Click="BtnAddNewItem_Click"/>
+            <Button x:Name="btnRemoveItem" IsEnabled="False" Content=" Remove Item from Invoice" HorizontalAlignment="Left" VerticalAlignment="Top" Width="153" Canvas.Left="424" Canvas.Top="357" Click="BtnRemoveItem_Click"/>
+            <Button x:Name="btnSave" Content="Save " IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Top" Width="82" Canvas.Left="36" Canvas.Top="341" Height="27
+                    " Click="BtnSave_Click"/>
         </Canvas>
+        <DataGrid x:Name="ItemsListGrid" HorizontalAlignment="Left" CanUserAddRows="False" Height="313" Margin="368,73,0,-318.4" VerticalAlignment="Top" Width="264" SelectionChanged="ItemsListGrid_SelectionChanged"/>
+        <Label x:Name="lblNewEdit" Content="" HorizontalAlignment="Left" Height="27" Margin="81,87,0,-46.4" VerticalAlignment="Top" FontSize="16"/>
+        <Label Content="Description" HorizontalAlignment="Left" Height="26" Margin="14,184,0,-142.4" VerticalAlignment="Top"/>
+        <Label Content="Cost" HorizontalAlignment="Left" Height="25" Margin="14,210,0,-167.4" VerticalAlignment="Top"/>
+        <TextBox x:Name="TxtDescription" HorizontalAlignment="Left" Height="23" Margin="100,182,0,-137.4" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtCost" HorizontalAlignment="Left" Height="23" Margin="100,210,0,-165.4" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="btnEditItem" IsEnabled="False" Content="Edit Item" HorizontalAlignment="Left" VerticalAlignment="Top" Width="81" Margin="135,323,0,-275.4" Click="BtnEditItem_Click"/>
+        <Label x:Name="lblNotification" Content="" HorizontalAlignment="Left" Height="27" Margin="61,272,0,-231.4" VerticalAlignment="Top" Width="139"/>
+        <Button x:Name="btnUpdate" IsEnabled="False" Content="Update" HorizontalAlignment="Left" Height="27" Margin="137,387,0,-344.4" VerticalAlignment="Top" Width="79" Click="BtnUpdate_Click"/>
+        <TextBox x:Name="TxtCode" Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="100,154,0,-109.4" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Code" Name="lblCode" Visibility="Hidden" HorizontalAlignment="Left" Height="25" Margin="14,154,0,-111.4" VerticalAlignment="Top"/>
 
     </Grid>
 

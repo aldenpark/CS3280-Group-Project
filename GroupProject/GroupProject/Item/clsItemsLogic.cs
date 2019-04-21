@@ -7,29 +7,57 @@ using System.Threading.Tasks;
 
 namespace GroupProject
 {
+
+    public struct lineItem
+    {
+        /// <summary>
+        /// db id of item
+        /// </summary>
+        public int InvoiceNum { get; set; }
+
+        /// <summary>
+        /// Line number from db
+        /// </summary>
+        public int LineitemNumber { get; set; }
+
+        /// <summary>
+        /// ItemCode
+        /// </summary>
+        public string ItemCode { get; set; }
+        /// <summary>
+        /// Override method of ToString to help display the lineItem object
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return ItemCode;
+        }
+    }
+
     class clsItemsLogic
     {
         /// <summary>
-        /// array to hold list items
+        /// List to hold list items fetched from Database
         /// </summary>
-        public static string[] listItems;
+        private List<Item> items;
+        /// <summary>
+        /// List to hold line Items fetched from Database
+        /// </summary>
+        private List<lineItem> LI;
 
         /// <summary>
         /// number to track index for the listItems array
         /// </summary>
         public static int CurrentIndex = 0;
 
-
+        /// <summary>
+        /// int variable used for executing SQL Statments 
+        /// </summary>
         public static int numberReturned = 0;
         /// <summary>
         /// db for Access database
         /// </summary>
         private static clsDataAccess db = new clsDataAccess();
-
-        /// <summary>
-        /// dataset for passing data to Access
-        /// </summary>
-        private static DataSet ds = new DataSet();
 
         /// <summary>
         /// Retrevies Item information from database to use in the drop down list
@@ -46,11 +74,28 @@ namespace GroupProject
         /// Gets all the data for the Item's Drop Down List
         /// </summary>
         /// <returns></returns>
-        public static DataSet GetItemsList()
-        {
-            ds = db.ExecuteSQLStatement(clsItemsSQL.ItemsList(), ref numberReturned);
+        
+       internal List<Item> GetItemList()
+       {
+            
+            items = new List<Item>();
 
-            return ds;
+                DataSet ds = new DataSet();
+                string sSQL = String.Format(clsItemsSQL.ItemsList());
+                ds = db.ExecuteSQLStatement(sSQL, ref numberReturned);
+
+                for (int i = 0; i < numberReturned; i++)
+                {
+                    items.Add(new Item()
+                    {
+                        Code = ds.Tables[0].Rows[i][0].ToString(),
+                        Description = ds.Tables[0].Rows[i][1].ToString(),
+                        Cost = int.Parse(ds.Tables[0].Rows[i][2].ToString())
+                    });
+                }
+              
+
+            return items;
         }
 
         /// <summary>
@@ -58,38 +103,53 @@ namespace GroupProject
         /// </summary>
         /// <param name="ItemName"></param>
         /// <returns></returns>
-        public static DataSet GetItemCost(string ItemName)
+        internal void AddItem(string code, string Description, int cost)
         {
-            ds = db.ExecuteSQLStatement(clsItemsSQL.ItemCost(ItemName), ref numberReturned);
-            return ds;
+            string sSQL = String.Format(clsItemsSQL.AddItem(code, Description, cost));
+            db.InsertNonQuery(sSQL);
         }
         
         /// <summary>
         /// Calculates the total amount for the totalCost textbox
         /// </summary>
         /// <returns></returns>
-        public double CalcualteTotalCost()
+        internal void UpdateItem(string code, string description, int cost)
         {
-            throw new NotImplementedException();
+            
+             db.ExecuteNonQuery(clsItemsSQL.UpdateItem(code, description, cost));
         }
-
         /// <summary>
-        /// fetches item cost from database so it can be displayed in the item cost textbox
+        /// Method to call the Delete Item SQL statement 
         /// </summary>
-        public void GetItemCost()
+        /// <param name="code"></param>
+        internal void DeleteItem(string code)
         {
-            throw new NotImplementedException();
+           
+            db.ExecuteNonQuery(clsItemsSQL.DeleteItem(code));
         }
-
         /// <summary>
-        /// method to update invoice
+        /// Method that calls SQL statment to retrieve Line Items and populate a List object
         /// </summary>
-        public static void SaveInvoice()
+        /// <param name="code"></param>
+        /// <returns></returns>
+        internal List<lineItem> GetLineItems(string code)
         {
-            for(int i = 0; i < listItems.Length; i++)
+            LI = new List<lineItem>();
+
+            DataSet ds = new DataSet();
+            string sSQL = String.Format(clsItemsSQL.GetLineItems(code));
+            ds = db.ExecuteSQLStatement(sSQL, ref numberReturned);
+
+            for (int i = 0; i < numberReturned; i++)
             {
-                ds = db.ExecuteSQLStatement(clsItemsSQL.UpdateInvoice(listItems[i]), ref numberReturned);
+                LI.Add(new lineItem()
+                {
+                    InvoiceNum = Convert.ToInt32(ds.Tables[0].Rows[i][0]),
+                    LineitemNumber = Convert.ToInt32(ds.Tables[0].Rows[i][1]),
+                    ItemCode = ds.Tables[0].Rows[i][2].ToString()
+                });
             }
+            return LI;
         }
 
     }

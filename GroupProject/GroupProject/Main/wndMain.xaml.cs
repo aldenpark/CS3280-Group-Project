@@ -38,6 +38,11 @@ namespace GroupProject
         /// </summary>
         clsItemsLogic il;
 
+        /// <summary>
+        /// Variable for passing data around Items window
+        /// </summary>
+        Item ThisItem; 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -547,6 +552,7 @@ namespace GroupProject
             Btn_Create.IsEnabled = false;
             Btn_Edit.IsEnabled = false;
             Btn_Delete.IsEnabled = false;
+            ItemsListGrid.ItemsSource = il.GetItemList();
             //Btn_Save.IsEnabled = false;
 
             try
@@ -558,5 +564,97 @@ namespace GroupProject
             }
         }
 
+        /// <summary>
+        /// Handles the Event of changing a selection on the Datagrid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ItemsListGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnRemoveItem.IsEnabled = true;
+            btnEditItem.IsEnabled = true;
+            ThisItem = (Item)ItemsListGrid.SelectedItem;
+        }
+
+        /// <summary>
+        /// Handles button click event on the Add New Item Button. Labels are filled and buttons are enabled
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnAddNewItem_Click(object sender, RoutedEventArgs e)
+        {
+            lblNewEdit.Content = "New Item: ";
+            btnSave.IsEnabled = true;
+            lblNotification.Content = "Enter a description and cost for the Item";
+            btnRemoveItem.IsEnabled = false;
+            lblCode.Visibility = Visibility.Visible;
+            TxtCode.Visibility = Visibility.Visible;
+        }
+        /// <summary>
+        /// Handles the Edit Item button click event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnEditItem_Click(object sender, RoutedEventArgs e)
+        {
+            lblNewEdit.Content = "Edit Item: ";
+            btnUpdate.IsEnabled = true;
+            lblNotification.Content = "Update Item description and/or cost";
+            btnRemoveItem.IsEnabled = false;
+            TxtDescription.Text = ThisItem.Description;
+            txtCost.Text = ThisItem.Cost.ToString();
+        }
+        /// <summary>
+        /// Handles event of clicking the save button after entering appropriate data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (TxtDescription.Text == "" && txtCost.Text == "" && TxtCode.Text == "")
+            {
+                MessageBox.Show("Please Enter a Code, a Description, and a cost");
+            }
+            else
+            {
+                string description = TxtDescription.Text;
+
+                int cost = Convert.ToInt32(txtCost.Text);
+                string code = TxtCode.Text;
+                il.AddItem(code, description, cost);
+            }
+
+        }
+        /// <summary>
+        /// Handles the click event of the Update button after relevant data is entered
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            string description = TxtDescription.Text;
+            int cost = Convert.ToInt32(txtCost.Text);
+            Item code = (Item)ItemsListGrid.SelectedItem;
+            il.UpdateItem(code.Code, description, cost);
+        }
+        /// <summary>
+        /// Handles the click event of the remove item button. Code is tested for usage and either deleted or not.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnRemoveItem_Click(object sender, RoutedEventArgs e)
+        {
+            Item item = (Item)ItemsListGrid.SelectedItem;
+            List<lineItem> test = il.GetLineItems(item.Code);
+            if (test.Count > 0)
+            {
+                MessageBox.Show("Error: Cannot delete " + item.ToString() + " because it is being used by certain Invoices");
+            }
+            else
+            {
+                il.DeleteItem(item.Code);
+            }
+
+        }
     }
 }

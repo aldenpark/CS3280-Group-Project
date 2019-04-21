@@ -15,49 +15,46 @@ namespace GroupProject
         /// <returns></returns>
         public static string ItemsList()
         {
-            return "SELECT Name FROM Items";
+            return  "SELECT ItemCode, ItemDesc, Cost FROM ItemDesc";
         }
 
         /// <summary>
-        /// SQL to get ItemCost
+        /// SQL to Add Item to items list
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static string ItemCost(string name)
+        public static string AddItem(string code, string description, int cost)
         {
-            return "SELECT Cost FROM Items WHERE Name = " + name;
+            return "INSERT INTO ItemDesc (ItemCode, ItemDesc, Cost) VALUES ( " + code + ", " + description + ", " + cost + ")";
         }
-
         /// <summary>
-        /// SQL to update the edited invoice
+        /// SQL to update ItemDesc Table with relevant data
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="code"></param>
+        /// <param name="description"></param>
+        /// <param name="cost"></param>
         /// <returns></returns>
-       
-        public static string UpdateInvoice(string name)
+        public static string UpdateItem(string code, string description, int cost)
         {
-            return "UPDATE Invoices SET InvoiceID = " + name;
+            return "UPDATE ItemDesc SET ItemDesc = " + description + ", Cost = " + cost.ToString() + " WHERE ItemCode = " + code;
         }
-        
-
-
-        ///<summary>
-        ///SQL to remove an item from the invoice
-        ///</summary>
-        ///<param name="name"></param>
-        ///<returns></returns>
-        ///
-        /*
-        POSSIBLY DON'T NEED THESE
-        public static string RemoveItemFromInvoice(string name)
+        /// <summary>
+        /// Method that returns SQL to delete item from ItemDesc table
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static string DeleteItem(string code)
         {
-            return "DELETE FROM Invoices WHERE ItemName = " + name;
+            return "DELETE FROM ItemDesc WHERE ItemCode = " + code;
         }
-
-        public static string AddItemToInvoice(string name)
+        /// <summary>
+        /// SQL statement to retrieve all lineItems containing items of the specified code
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static string GetLineItems(string code)
         {
-            return "UPDATE Invoices"
+            return "SELECT DISTINCT(InvoiceNum) FROM LineItems WHERE ItemCode = " + code;
         }
-        */
     }
 }

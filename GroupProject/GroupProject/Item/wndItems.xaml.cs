@@ -30,13 +30,15 @@ namespace GroupProject.Items
             //InitializeComponent();
 
             //fetches items data
-            ds = clsItemsLogic.GetItemsList();
+           // List<Item> list = new List<Item>();
+            //ItemListDropDown.ItemsSource = clsItemsLogic.GetItemList();
       
             //populates item list 
-            for (int i = 0; i < clsItemsLogic.numberReturned; i++)
-            {
-                ItemListDropDown.Items.Add(ds.Tables[0].Rows[i]["Item"].ToString());
-            }
+           // for (int i = 0; i < list.Count; i++)
+            //{
+                //ItemListDropDown.Items.Add(ds.Tables[0].Rows[i]["Item"].ToString());
+               // ItemListDropDown.Items.Add(list[i].ToString());
+            //}
 
 
         }
@@ -48,7 +50,7 @@ namespace GroupProject.Items
         /// <param name="e"></param>
         private void AddItemToInvoice_Click(object sender, RoutedEventArgs e)
         {
-            clsItemsLogic.listItems[clsItemsLogic.CurrentIndex] = ItemListDropDown.SelectedItem.ToString();
+            //clsItemsLogic.listItems[clsItemsLogic.CurrentIndex] = ItemListDropDown.SelectedItem.ToString();
             clsItemsLogic.CurrentIndex++;
         }
 
@@ -79,7 +81,7 @@ namespace GroupProject.Items
         /// <param name="e"></param>
         private void ItemList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ds = clsItemsLogic.GetItemCost(ItemListDropDown.SelectedItem.ToString());
+            //ds = clsItemsLogic.GetItemCost(ItemListDropDown.SelectedItem.ToString());
             CostTextBox.Text = ds.ToString();
         }
     }
