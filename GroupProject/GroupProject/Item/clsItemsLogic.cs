@@ -106,7 +106,7 @@ namespace GroupProject
         internal void AddItem(string code, string Description, int cost)
         {
             string sSQL = String.Format(clsItemsSQL.AddItem(code, Description, cost));
-            db.InsertNonQuery(sSQL);
+            db.ExecuteNonQuery(sSQL);
         }
         
         /// <summary>
