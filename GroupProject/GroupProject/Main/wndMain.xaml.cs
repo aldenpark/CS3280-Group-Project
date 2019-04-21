@@ -36,7 +36,7 @@ namespace GroupProject
         /// <summary>
         /// Item Logic Class
         /// </summary>
-        ///wndItemsLogic il;
+        clsItemsLogic il;
 
         public MainWindow()
         {
@@ -45,7 +45,7 @@ namespace GroupProject
             // load each of the 3 logic classes, all data will pass through here
             mn = new clsMainLogic(); // Load Main Class
             sl = new clsSearchLogic(); // Load Search Class
-            //il = new wndItemsLogic(); // Load Item Class
+            il = new clsItemsLogic(); // Load Item Class
         }
 
         /// <summary>
@@ -138,6 +138,7 @@ namespace GroupProject
 
             cb_InvoiceItems.ItemsSource = mn.GetLineItems();
             cb_InvoiceItems.SelectedIndex = -1;
+            dp_InvoiceDate.IsEnabled = true;
 
         }
 
@@ -200,12 +201,13 @@ namespace GroupProject
 
             try
             {
-                Invoice inv = mn.GetInvoice(id);
+                mn.GetInvoice(id);
 
-                lbl_InvoiceNumber.Content = inv.InvoiceNumber;
-                lbl_InvoiceDate.Content = inv.InvoiceDate;
-                lbl_InvoiceTotalCost.Content = string.Format("{0:C}", Convert.ToDecimal(inv.Cost));
-                DG_Items.ItemsSource = inv.Items;
+                lbl_InvoiceNumber.Content = mn.CurrentInvoice.InvoiceNumber;
+                dp_InvoiceDate.SelectedDate = mn.CurrentInvoice.InvoiceDate;
+
+                lbl_InvoiceTotalCost.Content = string.Format("{0:C}", Convert.ToDecimal(mn.CurrentInvoice.Cost));
+                DG_Items.ItemsSource = mn.CurrentInvoice.Items;
 
                 cb_InvoiceItems.ItemsSource = mn.GetLineItems();
                 cb_InvoiceItems.SelectedIndex = -1;
@@ -240,6 +242,38 @@ namespace GroupProject
                 Item item = (Item)cb_InvoiceItems.SelectedValue;
                 tb_InvoiceItemsCost.Text = String.Format("{0:C2}", Convert.ToDecimal(item.Cost.ToString()));
             }
+        }
+
+        private void Btn_AddToInvoice_Click(object sender, RoutedEventArgs e)
+        {
+            if (cb_InvoiceItems.SelectedIndex > -1)
+            {
+                if (mn.CurrentInvoice.Items == null)
+                {
+                    mn.CurrentInvoice.Items = new List<Item>();
+                }
+
+                Item item = (Item)cb_InvoiceItems.SelectedValue;
+
+                mn.CurrentInvoice.Items.Add(new Item()
+                {
+                    Code = item.Code,
+                    Description = item.Description,
+                    Cost = item.Cost
+                });
+                DG_Items.ItemsSource = null;
+                DG_Items.ItemsSource = mn.CurrentInvoice.Items;
+                lbl_InvoiceTotalCost.Content = string.Format("{0:C}", Convert.ToDecimal(mn.CurrentInvoice.Cost));
+            }
+            else
+            {
+                MessageBox.Show("No Item selected to add!");
+            }
+        }
+
+        private void Btn_RemoveFromInvoice_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void DG_Items_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -467,6 +501,7 @@ namespace GroupProject
 
 
         // -------------- Items UI functions
+
         /// <summary>
         /// when the form first loads, populate grid.
         /// </summary>
@@ -493,5 +528,6 @@ namespace GroupProject
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
         }
+
     }
 }

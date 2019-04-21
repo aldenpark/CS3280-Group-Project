@@ -67,7 +67,7 @@ namespace GroupProject
         /// <summary>
         /// For determing if an invoice is new or there is one open
         /// </summary>
-        public string CurrentInvoiceNum;
+        public Invoice CurrentInvoice;
 
         /// <summary>
         /// Dataa Access object
@@ -114,6 +114,7 @@ namespace GroupProject
                 throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
 
+            CurrentInvoice = inv;
             return inv;
         }
 
