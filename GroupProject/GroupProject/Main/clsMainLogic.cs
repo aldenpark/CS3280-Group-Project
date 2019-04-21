@@ -138,7 +138,7 @@ namespace GroupProject
                 }
                 else
                 {
-                    sSQL = String.Format(clsMainSQL.SaveInvoice, CurrentInvoice.InvoiceDate, CurrentInvoice.Cost, CurrentInvoice.InvoiceNumber);
+                    sSQL = String.Format(clsMainSQL.SaveInvoice, CurrentInvoice.InvoiceDate.ToShortDateString(), CurrentInvoice.Cost.ToString(), CurrentInvoice.InvoiceNumber);
                     clsData.ExecuteNonQuery(sSQL);
                 }
 

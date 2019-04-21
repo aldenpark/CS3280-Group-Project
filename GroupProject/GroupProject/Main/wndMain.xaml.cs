@@ -184,7 +184,18 @@ namespace GroupProject
             {
                 mn.SaveInvoice();
                 lbl_InvoiceNumber.Content = mn.CurrentInvoice.InvoiceNumber;
-            } else
+
+                Btn_Edit.Visibility = Visibility.Visible;
+                Btn_Save.Visibility = Visibility.Hidden;
+                Btn_Delete.Visibility = Visibility.Visible;
+                Btn_Cancel.Visibility = Visibility.Hidden;
+
+                dp_InvoiceDate.IsEnabled = false;
+                cb_InvoiceItems.IsEnabled = false;
+                btn_AddToInvoice.IsEnabled = false;
+                btn_RemoveFromInvoice.IsEnabled = false;
+            }
+            else
             {
                 MessageBox.Show("Items box cannot be empty!");
             }

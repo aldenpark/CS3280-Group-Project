@@ -41,7 +41,7 @@ namespace GroupProject
         {
             get
             {
-                return "INSERT INTO Invoices (InvoiceDate, TotalCost) VALUES ('{0}', '{1}')";
+                return "INSERT INTO Invoices (InvoiceDate, TotalCost) VALUES ('{0}', {1})";
             }
         }
 
@@ -49,14 +49,14 @@ namespace GroupProject
         {
             get
             {
-                return "UPDATE Invoices (InvoiceDate, TotalCost) VALUES ('{0}', '{1}') WHERE InvoiceNum = '{2}'";
+                return "UPDATE Invoices SET InvoiceDate = '{0}', TotalCost = {1} WHERE InvoiceNum = {2}";
             }
         }
         internal static string SaveLineItems
         {
             get
             {
-                return "INSERT INTO LineItems (InvoiceNum, LineItemNum, ItemCode) VALUES ('{0}', '{1}', '{1}')";
+                return "INSERT INTO LineItems (InvoiceNum, LineItemNum, ItemCode) VALUES ({0}, {1}, '{1}')";
             }
         }
 
@@ -64,14 +64,14 @@ namespace GroupProject
         {
             get
             {
-                return "DELETE FROM Invoices  WHERE InvoiceNum = '{0}'";
+                return "DELETE FROM Invoices  WHERE InvoiceNum = {0}";
             }
         }
         internal static string DeleteLineItems
         {
             get
             {
-                return "DELETE FROM LineItems WHERE InvoiceNum = '{0}'";
+                return "DELETE FROM LineItems WHERE InvoiceNum = {0}";
             }
         }
     }
