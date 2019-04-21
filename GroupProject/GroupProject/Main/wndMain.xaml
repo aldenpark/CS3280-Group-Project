@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GroupProject"
         mc:Ignorable="d"
-        Title="Invoice System" Height="485" Width="656" FontFamily="Segoe UI Semibold">
+        Title="Invoice System" Height="485" Width="656" FontFamily="Segoe UI Semibold" WindowState="Maximized" ResizeMode="NoResize" MaxHeight="485" MaxWidth="656">
 
     <Window.Resources>
         <Style x:Key="lbl_White_Font">

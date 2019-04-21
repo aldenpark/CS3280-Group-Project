@@ -192,13 +192,14 @@ namespace GroupProject
 
                 Btn_Edit.Visibility = Visibility.Visible;
                 Btn_Save.Visibility = Visibility.Hidden;
-                Btn_Delete.Visibility = Visibility.Visible;
-                Btn_Cancel.Visibility = Visibility.Hidden;
+                Btn_Delete.Visibility = Visibility.Hidden;
+                Btn_Cancel.Visibility = Visibility.Visible;
 
                 dp_InvoiceDate.IsEnabled = false;
                 cb_InvoiceItems.IsEnabled = false;
                 btn_AddToInvoice.IsEnabled = false;
                 btn_RemoveFromInvoice.IsEnabled = false;
+                Btn_Edit.IsEnabled = true;
             }
             else
             {

@@ -56,7 +56,7 @@ namespace GroupProject
         {
             get
             {
-                return "INSERT INTO LineItems (InvoiceNum, LineItemNum, ItemCode) VALUES ({0}, {1}, '{1}')";
+                return "INSERT INTO LineItems (InvoiceNum, LineItemNum, ItemCode) VALUES ({0}, {1}, '{2}')";
             }
         }
 
