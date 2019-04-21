@@ -40,6 +40,7 @@
                 </MenuItem>
                 <MenuItem Header="_Actions">
                     <MenuItem x:Name="MI_Search" Header="_Search For Invoice" Click="Search_Window" />
+                    <MenuItem x:Name="MI_EditItems" Header="_Edit Items" Click="Items_Window" />
                     <Separator />
                 </MenuItem>
             </Menu>
@@ -60,14 +61,14 @@
             <Label x:Name="lbl_InvoiceDate" Content="01/01/0000" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="16" Style="{StaticResource lbl_White_Font}" Canvas.Left="294" Canvas.Top="27" Width="91"/>
 
             <Label x:Name="lbl_InvoiceItms" Content="Items:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" Style="{StaticResource lbl_White_Font}" Canvas.Left="10" Canvas.Top="63" Width="79"/>
-            <ComboBox x:Name="cb_InvoiceItems" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="154" Canvas.Left="10" Canvas.Top="99"/>
+            <ComboBox x:Name="cb_InvoiceItems" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="154" Canvas.Left="10" Canvas.Top="99" SelectionChanged="Cb_InvoiceItems_SelectionChanged"/>
             <Label x:Name="lbl_InvoiceItmsCst" Content="Cost:" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="16" Style="{StaticResource lbl_White_Font}" Canvas.Left="268" Canvas.Top="63" RenderTransformOrigin="1.391,0.419" Width="75"/>
-            <TextBox x:Name="tb_InvoiceItemsCost" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="117" Canvas.Left="268" Canvas.Top="99"/>
+            <TextBox x:Name="tb_InvoiceItemsCost" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="117" Canvas.Left="268" Canvas.Top="99" IsReadOnly="True"/>
 
             <Button x:Name="btn_AddToInvoice" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Click="Btn_UpdateInvoice_Click" Canvas.Left="10" Canvas.Top="139"/>
             <Button x:Name="btn_RemoveFromInvoice" Content="Remove" HorizontalAlignment="Left" VerticalAlignment="Top" Width="54" Click="Btn_UpdateInvoice_Click" Canvas.Left="70" Canvas.Top="139"/>
 
-            <DataGrid x:Name="DG_Items" HorizontalAlignment="Left" Height="130" VerticalAlignment="Top" Width="375" RenderTransformOrigin="0.515,0.776" Canvas.Left="10" Canvas.Top="164" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid x:Name="DG_Items" HorizontalAlignment="Left" Height="130" VerticalAlignment="Top" Width="375" RenderTransformOrigin="0.515,0.776" Canvas.Left="10" Canvas.Top="164" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="DG_Items_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Code" Binding="{Binding Path=Code}" MinWidth="50"></DataGridTextColumn>
                     <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}" MinWidth="250"></DataGridTextColumn>

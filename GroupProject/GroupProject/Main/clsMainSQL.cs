@@ -25,6 +25,17 @@ namespace GroupProject
                             "WHERE Invoices.InvoiceNum = {0}";
             }
         }
+
+        /// <summary>
+        /// Get invoice
+        /// </summary>
+        internal static string GetLineItems
+        {
+            get
+            {
+                return "SELECT ItemCode, ItemDesc, Cost FROM ItemDesc";
+            }
+        }
     }
 
 }

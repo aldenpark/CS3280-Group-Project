@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GroupProject
 {
-    struct Invoice
+    public struct Invoice
     {
         /// <summary>
         /// Invoice number
@@ -38,7 +38,7 @@ namespace GroupProject
         }
     }
 
-    struct Item
+    public struct Item
     {
         /// <summary>
         /// db id of item
@@ -54,24 +54,43 @@ namespace GroupProject
         /// cost of item
         /// </summary>
         public double Cost { get; set; }
+
+        public override string ToString()
+        {
+            return Description;
+        }
     }
+
 
     class clsMainLogic
     {
+        /// <summary>
+        /// For determing if an invoice is new or there is one open
+        /// </summary>
+        public string CurrentInvoiceNum;
+
+        /// <summary>
+        /// Dataa Access object
+        /// </summary>
         clsDataAccess clsData;
 
         // save invoice 
 
         // update invoice
 
+        /// <summary>
+        /// Get invoice by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         internal Invoice GetInvoice(int id)
         {
             Invoice inv = new Invoice();
             inv.Items = new List<Item>();
 
-            //try
-            //{
-            DataSet ds = new DataSet();
+            try
+            {
+                DataSet ds = new DataSet();
                 string sSQL = String.Format(clsMainSQL.GetInvoice, id);
                 int iRet = 0;
                 clsData = new clsDataAccess();
@@ -89,13 +108,48 @@ namespace GroupProject
                         Cost = int.Parse(ds.Tables[0].Rows[i][4].ToString())
                     });
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+
+            return inv;
+        }
+
+        /// <summary>
+        /// Get list of LineItems
+        /// </summary>
+        /// <returns></returns>
+        internal List<Item> GetLineItems()
+        {
+            List<Item> items = new List<Item>();
+
+            //try
+            //{
+                DataSet ds = new DataSet();
+                string sSQL = String.Format(clsMainSQL.GetLineItems);
+                int iRet = 0;
+                clsData = new clsDataAccess();
+
+                ds = clsData.ExecuteSQLStatement(sSQL, ref iRet);
+
+                for (int i = 0; i < iRet; i++)
+                {
+                    items.Add(new Item()
+                    {
+                        Code = ds.Tables[0].Rows[i][0].ToString(),
+                        Description = ds.Tables[0].Rows[i][1].ToString(),
+                        Cost = int.Parse(ds.Tables[0].Rows[i][2].ToString())
+                    });
+                }
             //}
             //catch (Exception ex)
             //{
             //    throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             //}
 
-            return inv;
+            return items;
         }
     }
 }

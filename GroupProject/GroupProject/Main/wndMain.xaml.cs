@@ -135,6 +135,10 @@ namespace GroupProject
             Invoice.Visibility = Visibility.Visible;
             Search.Visibility = Visibility.Hidden;
             Item.Visibility = Visibility.Hidden;
+
+            cb_InvoiceItems.ItemsSource = mn.GetLineItems();
+            cb_InvoiceItems.SelectedIndex = -1;
+
         }
 
         /// <summary>
@@ -194,19 +198,23 @@ namespace GroupProject
             //cb_InvoiceItems
             //tb_InvoiceItemsCost
 
-            //try
-            //{
+            try
+            {
                 Invoice inv = mn.GetInvoice(id);
 
                 lbl_InvoiceNumber.Content = inv.InvoiceNumber;
                 lbl_InvoiceDate.Content = inv.InvoiceDate;
                 lbl_InvoiceTotalCost.Content = string.Format("{0:C}", Convert.ToDecimal(inv.Cost));
                 DG_Items.ItemsSource = inv.Items;
-            //}
-            //catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-            //{
-            //    HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
-            //}
+
+                cb_InvoiceItems.ItemsSource = mn.GetLineItems();
+                cb_InvoiceItems.SelectedIndex = -1;
+
+            }
+            catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
 
             //DG_Items.ColumnCount = 3;
             //DG_Items.Columns[0].Name = "Product ID";
@@ -224,6 +232,22 @@ namespace GroupProject
 
         }
 
+
+        private void Cb_InvoiceItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cb_InvoiceItems.SelectedIndex > -1)
+            {
+                Item item = (Item)cb_InvoiceItems.SelectedValue;
+                tb_InvoiceItemsCost.Text = String.Format("{0:C2}", Convert.ToDecimal(item.Cost.ToString()));
+            }
+        }
+
+        private void DG_Items_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+
         // -------------- Search UI functions
 
         /// <summary>
@@ -234,6 +258,7 @@ namespace GroupProject
         private void Search_Window(object sender, RoutedEventArgs e)
         {
             Main.Visibility = Visibility.Hidden;
+            Invoice.Visibility = Visibility.Hidden;
             Search.Visibility = Visibility.Visible;
             Item.Visibility = Visibility.Hidden;
             MI_Search.IsEnabled = false;
@@ -361,6 +386,31 @@ namespace GroupProject
         }
 
         // -------------- Items UI functions
+        /// <summary>
+        /// when the form first loads, populate grid.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Items_Window(object sender, RoutedEventArgs e)
+        {
+            Main.Visibility = Visibility.Hidden;
+            Invoice.Visibility = Visibility.Hidden;
+            Search.Visibility = Visibility.Hidden;
+            Item.Visibility = Visibility.Visible;
+            MI_Search.IsEnabled = false;
+            MI_Close.IsEnabled = true;
+            Btn_Create.IsEnabled = false;
+            Btn_Edit.IsEnabled = false;
+            Btn_Delete.IsEnabled = false;
+            //Btn_Save.IsEnabled = false;
 
+            try
+            {
+            }
+            catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            {
+                HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+            }
+        }
     }
 }
