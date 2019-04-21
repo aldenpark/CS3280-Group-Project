@@ -84,6 +84,7 @@ namespace GroupProject
         private void MI_Close_Click(object sender, RoutedEventArgs e)
         {
             MI_Close_Click();
+            mn.CurrentInvoice = new Invoice(); // clear current invoice
         }
 
         /// <summary>
@@ -103,6 +104,12 @@ namespace GroupProject
             Btn_Delete.Visibility = Visibility.Visible;
             Btn_Cancel.Visibility = Visibility.Hidden;
 
+            dp_InvoiceDate.IsEnabled = false;
+            cb_InvoiceItems.IsEnabled = false;
+            btn_AddToInvoice.IsEnabled = false;
+            btn_RemoveFromInvoice.IsEnabled = false;
+            tb_InvoiceItemsCost.Text = "";
+            DG_Items.ItemsSource = null;
 
             Main.Visibility = Visibility.Visible;
             Invoice.Visibility = Visibility.Hidden;
@@ -122,14 +129,17 @@ namespace GroupProject
             Btn_Create.IsEnabled = false;
             Btn_Edit.IsEnabled = false;
             Btn_Delete.IsEnabled = true;
-            Btn_Delete.Content = "Cancel";
             Btn_Edit.Visibility = Visibility.Hidden;
             Btn_Save.Visibility = Visibility.Visible;
             Btn_Delete.Visibility = Visibility.Hidden;
             Btn_Cancel.Visibility = Visibility.Visible;
 
-            // Invoice data will be updated through clsItemLogic class
-
+            dp_InvoiceDate.IsEnabled = true;
+            cb_InvoiceItems.IsEnabled = true;
+            btn_AddToInvoice.IsEnabled = true;
+            btn_RemoveFromInvoice.IsEnabled = true;
+            tb_InvoiceItemsCost.Text = "";
+            DG_Items.ItemsSource = null;
 
             Main.Visibility = Visibility.Hidden;
             Invoice.Visibility = Visibility.Visible;
@@ -140,6 +150,9 @@ namespace GroupProject
             cb_InvoiceItems.SelectedIndex = -1;
             dp_InvoiceDate.IsEnabled = true;
 
+            lbl_InvoiceNumber.Content = "Invoice #: TBD";
+            dp_InvoiceDate.SelectedDate = null;
+            dp_InvoiceDate.DisplayDate = DateTime.Today;
         }
 
         /// <summary>
@@ -149,7 +162,32 @@ namespace GroupProject
         /// <param name="e"></param>
         private void Btn_Edit_Click(object sender, RoutedEventArgs e)
         {
-            // Invoice data will be updated through clsItemLogic class
+            Btn_Edit.Visibility = Visibility.Hidden;
+            Btn_Save.Visibility = Visibility.Visible;
+            Btn_Delete.Visibility = Visibility.Hidden;
+            Btn_Cancel.Visibility = Visibility.Visible;
+
+            dp_InvoiceDate.IsEnabled = true;
+            cb_InvoiceItems.IsEnabled = true;
+            btn_AddToInvoice.IsEnabled = true;
+            btn_RemoveFromInvoice.IsEnabled = true;
+        }
+
+        /// <summary>
+        ///  Save Invoice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btn_Save_Click(object sender, RoutedEventArgs e)
+        {
+            if (mn.CurrentInvoice.Items != null && mn.CurrentInvoice.Items.Count > 0)
+            {
+                mn.SaveInvoice();
+                lbl_InvoiceNumber.Content = mn.CurrentInvoice.InvoiceNumber;
+            } else
+            {
+                MessageBox.Show("Items box cannot be empty!");
+            }
         }
 
         /// <summary>
@@ -159,32 +197,23 @@ namespace GroupProject
         /// <param name="e"></param>
         private void Btn_Delete_Click(object sender, RoutedEventArgs e)
         {
-            // Invoice data will be updated through clsItemLogic class
-
+            if ((MessageBoxResult)MessageBox.Show("Are you sure you want to delete this invoice?", "Delete Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                mn.DeleteInvoice();
+            }
             MI_Close_Click();
         }
 
-        private void CmbInvoiceCharges_SelectionChanged(object sender, DataTransferEventArgs e)
-        {
-
-        }
-
-        private void Btn_UpdateInvoice_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Btn_Save_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Open invoice
+        /// </summary>
+        /// <param name="id"></param>
         private void openInvoice(int id)
         {
             MI_Search.IsEnabled = true;
-            MI_Close.IsEnabled = false;
-            Btn_Create.IsEnabled = true;
-            Btn_Edit.IsEnabled = false;
+            MI_Close.IsEnabled = true;
+            Btn_Create.IsEnabled = false;
+            Btn_Edit.IsEnabled = true;
             Btn_Delete.IsEnabled = false;
             Btn_Edit.Visibility = Visibility.Visible;
             Btn_Save.Visibility = Visibility.Hidden;
@@ -195,9 +224,6 @@ namespace GroupProject
             Invoice.Visibility = Visibility.Visible;
             Search.Visibility = Visibility.Hidden;
             Item.Visibility = Visibility.Hidden;
-
-            //cb_InvoiceItems
-            //tb_InvoiceItemsCost
 
             try
             {
@@ -217,24 +243,13 @@ namespace GroupProject
             {
                 HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
             }
-
-            //DG_Items.ColumnCount = 3;
-            //DG_Items.Columns[0].Name = "Product ID";
-            //DG_Items.Columns[1].Name = "Product Name";
-            //DG_Items.Columns[2].Name = "Product Price";
-
-            //string[] row = new string[] { "1", "Product 1", "1000" };
-            //dataGridView1.Rows.Add(row);
-            //row = new string[] { "2", "Product 2", "2000" };
-            //dataGridView1.Rows.Add(row);
-            //row = new string[] { "3", "Product 3", "3000" };
-            //dataGridView1.Rows.Add(row);
-            //row = new string[] { "4", "Product 4", "4000" };
-            //dataGridView1.Rows.Add(row);
-
         }
 
-
+        /// <summary>
+        /// Update TotalCost field
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Cb_InvoiceItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cb_InvoiceItems.SelectedIndex > -1)
@@ -244,6 +259,11 @@ namespace GroupProject
             }
         }
 
+        /// <summary>
+        /// Add items to invoice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_AddToInvoice_Click(object sender, RoutedEventArgs e)
         {
             if (cb_InvoiceItems.SelectedIndex > -1)
@@ -265,20 +285,24 @@ namespace GroupProject
                 DG_Items.ItemsSource = mn.CurrentInvoice.Items;
                 lbl_InvoiceTotalCost.Content = string.Format("{0:C}", Convert.ToDecimal(mn.CurrentInvoice.Cost));
             }
-            else
-            {
-                MessageBox.Show("No Item selected to add!");
-            }
         }
 
+        /// <summary>
+        /// remove items from invoice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_RemoveFromInvoice_Click(object sender, RoutedEventArgs e)
         {
+            if(DG_Items.SelectedIndex > -1)
+            {
+                Item item = (Item)DG_Items.SelectedValue;
+                mn.CurrentInvoice.Items.Remove(item);
 
-        }
-
-        private void DG_Items_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+                DG_Items.ItemsSource = null;
+                DG_Items.ItemsSource = mn.CurrentInvoice.Items;
+                lbl_InvoiceTotalCost.Content = string.Format("{0:C}", Convert.ToDecimal(mn.CurrentInvoice.Cost));
+            }
         }
 
 
@@ -460,12 +484,6 @@ namespace GroupProject
             {
                 MessageBox.Show("Please make one selection or cancel");
             }
-
-
-            //IList rows = grdInvoiceList.SelectedItems;
-            //DataRowView row = (DataRowView)grdInvoiceList.SelectedItems[0];
-            //MI_Close_Click();
-            //openInvoice(Int32.Parse(row["InvoiceNum"].ToString()));
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)

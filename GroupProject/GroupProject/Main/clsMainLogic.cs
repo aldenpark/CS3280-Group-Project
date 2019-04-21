@@ -33,7 +33,11 @@ namespace GroupProject
         {
             get
             {
-                return this.Items.Select(i => i.Cost).Sum();
+                if (this.Items != null && this.Items.Count > 0)
+                {
+                    return this.Items.Select(i => i.Cost).Sum();
+                }
+                return 0;
             }
         }
     }
@@ -83,17 +87,18 @@ namespace GroupProject
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        internal Invoice GetInvoice(int id)
+        internal void GetInvoice(int id)
         {
+            DataSet ds = new DataSet();
+            clsData = new clsDataAccess();
+
             Invoice inv = new Invoice();
             inv.Items = new List<Item>();
 
             try
             {
-                DataSet ds = new DataSet();
                 string sSQL = String.Format(clsMainSQL.GetInvoice, id);
                 int iRet = 0;
-                clsData = new clsDataAccess();
 
                 ds = clsData.ExecuteSQLStatement(sSQL, ref iRet);
 
@@ -115,7 +120,52 @@ namespace GroupProject
             }
 
             CurrentInvoice = inv;
-            return inv;
+        }
+
+        internal void SaveInvoice()
+        {
+            DataSet ds = new DataSet();
+            clsData = new clsDataAccess();
+            string sSQL;
+
+            if (CurrentInvoice.Items != null && CurrentInvoice.Items.Count > 0)
+            {
+                if (CurrentInvoice.InvoiceNumber == null)
+                {
+                    sSQL = String.Format(clsMainSQL.SaveNewInvoice, CurrentInvoice.InvoiceDate, CurrentInvoice.Cost);
+                    int incId = clsData.InsertNonQuery(sSQL);
+                    CurrentInvoice.InvoiceNumber = incId.ToString();
+                }
+                else
+                {
+                    sSQL = String.Format(clsMainSQL.SaveInvoice, CurrentInvoice.InvoiceDate, CurrentInvoice.Cost, CurrentInvoice.InvoiceNumber);
+                    clsData.ExecuteNonQuery(sSQL);
+                }
+
+                sSQL = String.Format(clsMainSQL.DeleteLineItems, CurrentInvoice.InvoiceNumber);
+                clsData.ExecuteNonQuery(sSQL);
+                int i = 1;
+                foreach (Item row in CurrentInvoice.Items)
+                {
+                    sSQL = String.Format(clsMainSQL.SaveLineItems, CurrentInvoice.InvoiceNumber, i, row.Code);
+                    clsData.ExecuteNonQuery(sSQL);
+                    i++;
+                }
+            }
+
+        }
+
+        internal void DeleteInvoice()
+        {
+            DataSet ds = new DataSet();
+            clsData = new clsDataAccess();
+            string sSQL;
+
+            sSQL = String.Format(clsMainSQL.DeleteInvoice, CurrentInvoice.InvoiceNumber);
+            clsData.ExecuteNonQuery(sSQL);
+
+            sSQL = String.Format(clsMainSQL.DeleteLineItems, CurrentInvoice.InvoiceNumber);
+            clsData.ExecuteNonQuery(sSQL);
         }
 
         /// <summary>
