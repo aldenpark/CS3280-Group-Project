@@ -19,15 +19,17 @@ namespace GroupProject
                 return "SELECT ItemCode, ItemDesc, Cost FROM ItemDesc";
             }
 
-            /// <summary>
-            /// SQL to Add Item to items list
-            /// </summary>
-            /// <param name="name"></param>
-            /// <returns></returns>
+        /// <summary>
+        /// SQL to Add Item to items list
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+      
             public static string AddItem(string code, string description, int cost)
             {
                 return "INSERT INTO ItemDesc (ItemCode, ItemDesc, Cost) VALUES ( '" + code + "', '" + description + "', " + cost + ")";
             }
+
             /// <summary>
             /// SQL to update ItemDesc Table with relevant data
             /// </summary>

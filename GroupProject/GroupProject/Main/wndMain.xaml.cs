@@ -622,6 +622,8 @@ namespace GroupProject
                 int cost = Convert.ToInt32(txtCost.Text);
                 string code = TxtCode.Text;
                 il.AddItem(code, description, cost);
+                ItemsListGrid.ItemsSource = null;
+                ItemsListGrid.ItemsSource = il.GetItemList();
             }
 
         }
@@ -636,6 +638,8 @@ namespace GroupProject
             int cost = Convert.ToInt32(txtCost.Text);
             Item code = (Item)ItemsListGrid.SelectedItem;
             il.UpdateItem(code.Code, description, cost);
+            ItemsListGrid.ItemsSource = null;
+            ItemsListGrid.ItemsSource = il.GetItemList();
         }
         /// <summary>
         /// Handles the click event of the remove item button. Code is tested for usage and either deleted or not.
@@ -653,6 +657,8 @@ namespace GroupProject
             else
             {
                 il.DeleteItem(item.Code);
+                ItemsListGrid.ItemsSource = null;
+                ItemsListGrid.ItemsSource = il.GetItemList();
             }
 
         }

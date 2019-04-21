@@ -146,9 +146,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Billing.mdb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Billing.mdb" />
     <Resource Include="Main\Invoicing.png" />
   </ItemGroup>
   <ItemGroup>
