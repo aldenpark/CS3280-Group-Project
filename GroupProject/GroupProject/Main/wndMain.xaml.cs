@@ -267,6 +267,8 @@ namespace GroupProject
             {
                 try {
                     grdInvoiceList.ItemsSource = sl.SelectedDateSearchWindow(cmbInvoiceDate.SelectedValue.ToString());
+                    updateList();
+                    //grdInvoiceList.ItemsSource = sl.SelectedDateSearchWindow(cmbInvoiceDate.SelectedValue.ToString());
                 }
                 catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
                 {
@@ -285,13 +287,100 @@ namespace GroupProject
             if (cmbInvoiceCharges.SelectedIndex != -1)
             {
                 try {
-                    grdInvoiceList.ItemsSource = sl.SelectedChargeSearchWindow(cmbInvoiceCharges.SelectedValue.ToString());
+                    updateList();
+                    //grdInvoiceList.ItemsSource = sl.SelectedChargeSearchWindow(cmbInvoiceCharges.SelectedValue.ToString());
+
+                   
+
                 }
                 catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
                 {
                     HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
                 }
             }
+        }
+
+
+        /// <summary>
+        /// combobox for when the invoice number changes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CmbInvoiceNumber_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            //populate with selected value
+            if (cmbInvoiceNumber.SelectedIndex != -1)
+            {
+                try
+                {
+                    updateList();
+                    //grdInvoiceList.ItemsSource = sl.SelectedInvoiceSearchWindow(Int32.Parse(cmbInvoiceNumber.SelectedValue.ToString()));
+                }
+                catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+                {
+                    HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// helper method to help with updateing the grid
+        /// </summary>
+        private void updateList()
+        {
+            DataSet ds;
+            string charge = "";
+            string num = "";
+            string date = "";
+            if (cmbInvoiceCharges.SelectedIndex != -1) { charge = cmbInvoiceCharges.SelectedValue.ToString(); }
+            if (cmbInvoiceDate.SelectedIndex != -1) { date = cmbInvoiceDate.SelectedValue.ToString(); }
+            if (cmbInvoiceNumber.SelectedIndex != -1) { num = cmbInvoiceNumber.SelectedValue.ToString(); }
+
+            string sSql = "SELECT* FROM Invoices WHERE ";
+            int first = 0;
+            if (cmbInvoiceCharges.SelectedIndex != -1)
+            {
+
+                first = 1;
+                sSql += "TotalCost = " + charge;
+
+
+            }
+            if (cmbInvoiceDate.SelectedIndex != -1)
+            {
+                if (first != 1)
+                {
+                    first = 1;
+                    sSql += "InvoiceDate = #" + date + "#";
+                }
+                else
+                {
+                    sSql += " AND InvoiceDate = #" + date + "#";
+                }
+
+            }
+            if (cmbInvoiceNumber.SelectedIndex != -1)
+            {
+                if (first != 1)
+                {
+                    first = 1;
+                    sSql += "InvoiceNum = " + num.ToString();
+                }
+                else
+                {
+                    sSql += " AND InvoiceNum = " + num.ToString();
+                }
+            }
+
+            //MessageBox.Show("SELECT * FROM Invoices WHERE " + sSql);
+
+            ds = clsSearchLogic.dbUpdateALL(sSql);
+
+            grdInvoiceList.ItemsSource = null;
+            grdInvoiceList.ItemsSource = ds.Tables[0].DefaultView;
+            grdInvoiceList.Items.Refresh();
         }
 
         /// <summary>
@@ -301,10 +390,23 @@ namespace GroupProject
         /// <param name="e"></param>
         private void BtnSelect_Click(object sender, RoutedEventArgs e)
         {
-            IList rows = grdInvoiceList.SelectedItems;
-            DataRowView row = (DataRowView)grdInvoiceList.SelectedItems[0];
-            MI_Close_Click();
-            openInvoice(Int32.Parse(row["InvoiceNum"].ToString()));
+            if (grdInvoiceList.SelectedItems.Count == 1)
+            {
+                IList rows = grdInvoiceList.SelectedItems;
+                DataRowView row = (DataRowView)grdInvoiceList.SelectedItems[0];
+                MI_Close_Click();
+                openInvoice(Int32.Parse(row["InvoiceNum"].ToString()));
+            }
+            else
+            {
+                MessageBox.Show("Please make one selection or cancel");
+            }
+
+
+            //IList rows = grdInvoiceList.SelectedItems;
+            //DataRowView row = (DataRowView)grdInvoiceList.SelectedItems[0];
+            //MI_Close_Click();
+            //openInvoice(Int32.Parse(row["InvoiceNum"].ToString()));
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
@@ -337,28 +439,7 @@ namespace GroupProject
             }
         }
 
-        /// <summary>
-        /// combobox for when the invoice number changes
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CmbInvoiceNumber_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-            //populate with selected value
-            if (cmbInvoiceNumber.SelectedIndex != -1)
-            {
-                try
-                {
-                    grdInvoiceList.ItemsSource = sl.SelectedInvoiceSearchWindow(Int32.Parse(cmbInvoiceNumber.SelectedValue.ToString()));
-                }
-                catch (Exception ex) // throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." + MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
-                {
-                    HandleError(MethodInfo.GetCurrentMethod().DeclaringType.Name, MethodInfo.GetCurrentMethod().Name, ex.Message);
-                }
-            }
-
-        }
 
         // -------------- Items UI functions
 
